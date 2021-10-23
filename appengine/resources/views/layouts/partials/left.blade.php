@@ -7,10 +7,10 @@
     </li>
     @if(Auth::user()->jenis_user == "admin")
         <li class="nav-title">Menu Admin</li>
-        <li class="{{ Nav::isRoute('pesantren', 'active') }}">
-            <a href="{{ url('/pesantren') }}" title="Dashboard" data-filter-tags="pesantren">
+        <li class="{{ Nav::isRoute('pegawai', 'active') }}">
+            <a href="{{ url('/pegawai') }}" title="Pegawai" data-filter-tags="pegawai">
                 <i class="fal fa-users"></i>
-                <span class="nav-link-text" data-i18n="nav.pesantren">Data Kondektur</span>
+                <span class="nav-link-text" data-i18n="nav.pegawai">Pegawai & Kondektur</span>
             </a>
         </li>
         <li class="{{ Nav::isResource('setting', NULL, 'active') }}">

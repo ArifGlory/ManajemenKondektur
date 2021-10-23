@@ -1,0 +1,14 @@
+/appengine/node_modules
+/appengine/public/hot
+/appengine/public/storage
+/appengine/storage/*.key
+/appengine/vendor
+/appengine/.env
+/appengine/.phpunit.result.cache
+/appengine/Homestead.json
+/appengine/Homestead.yaml
+/appengine/npm-debug.log
+/appengine/yarn-error.log
+/appengine/resources/views/transaksi/abk/.idea/
+/appengine/.idea/
+.idea/

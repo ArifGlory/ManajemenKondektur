@@ -25,7 +25,7 @@
         </h1>
         <div class="btn-group btn-group-sm text-center float-right" role="group">
             <a href="{{ route('santri.index') }}" class="btn btn-primary btn-mini waves-effect waves-light"><span class="fal fa-backward"></span> Kembali</a>
-            <a href="{{ route('santri.edit', $data->primary_santri) }}" class="btn btn-success btn-sm waves-effect text-right"><i
+            <a href="{{ route('pegawai', $data->primary_santri) }}" class="btn btn-success btn-sm waves-effect text-right"><i
                         class="fal fa-edit"></i> Edit
             </a>
         </div>
@@ -234,7 +234,7 @@
                                         @if($data->foto_santri)
                                             <img id="previewFoto" src="{{ asset('img/santri/'.$data->foto_santri) }}" height="250px" alt="">
                                         @else
-                                            <img id="previewFoto" width="100%" height="250" src="{{asset('img/santri/padrao.png')}}">
+                                            <img id="previewFoto" width="100%" height="250" src="{{asset('pegawai')}}">
                                         @endif
                                     </div>
                                 </div>
