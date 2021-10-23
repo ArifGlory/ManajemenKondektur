@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class OrangTuaRequest extends FormRequest
+class Pegawai2Request extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,8 +26,13 @@ class OrangTuaRequest extends FormRequest
         return [
             //
             'name' => 'required',
+            'phone' => 'required',
+            'nip' => 'required',
+            'pangkat' => 'required',
+            'jabatan' => 'required',
             'email' => 'required',
-            'phone' => 'required'
+            'password' => 'required',
+            'foto' => 'required'
         ];
     }
 }

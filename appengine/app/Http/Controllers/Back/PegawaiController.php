@@ -43,6 +43,17 @@ class PegawaiController extends Controller
 
 
                 return Datatables::of($data)
+                    ->editColumn('jabatan',function ($item){
+                        if ($item->jabatan == "KDT"){
+                            $nama_jabatan = "Kondektur";
+                        }else if ($item->jabatan == "LIA"){
+                            $nama_jabatan = "Penyelia";
+                        }if ($item->jabatan == "KUPT"){
+                            $nama_jabatan = "Kepala UPT";
+                        }
+
+                        return $nama_jabatan;
+                    })
                     ->addColumn('_action', function ($item) {/*
                          /*
                          * L = Lihat => $lihat
@@ -58,7 +69,6 @@ class PegawaiController extends Controller
                             $hapus = route('pegawai.destroy', $item->id);
                             if ($item->status_aktivasi == 0){
                                 $button = 'LEHARM';
-                                $aktivasi = route('pegawai.aktivasi', $item->id);
                                 return view('datatable._action_button', compact('item', 'button', 'lihat','edit', 'hapus'));
                             }else{
                                 $button = 'LEHRM';
@@ -71,7 +81,6 @@ class PegawaiController extends Controller
                             $hapus = route('pegawai.destroy', $item->id);
                             if ($item->status_aktivasi == 0){
                                 $button = 'LEHAM';
-                                $aktivasi = route('pegawai.aktivasi', $item->id);
                                 return view('datatable._action_button', compact('item', 'button', 'lihat','edit', 'hapus'));
                             }else{
                                 $button = 'LEHM';
@@ -173,38 +182,30 @@ class PegawaiController extends Controller
 
         $requestData = $request->all();
 
-        $data = Santri::findOrFail($id);
+        $data = User::findOrFail($id);
 
         if ($request->hasFile('foto')) {
             //hapus foto lama
-            if ($data->foto_santri != "padrao.png"){
-                if (file_exists('img/santri/' . $data->foto_santri)) {
-                    unlink('img/santri/' . $data->foto_santri);
+            if ($data->foto != "padrao.png"){
+                if (file_exists('img/pegawai/' . $data->foto)) {
+                    unlink('img/pegawai/' . $data->foto);
                 }
             }
 
-            $image = $request->file('foto_santri');
+            $image = $request->file('foto');
             $photo = round(microtime(true) * 1000) . '.' . $image->getClientOriginalExtension();
-            $image->move('img/santri/', $photo);
-            $requestData['foto_santri'] = $photo;
+            $image->move('img/pegawai/', $photo);
+            $requestData['foto'] = $photo;
         }
 
         $update = $data->update($requestData);
         if ($update) {
-            $orang_tua = OrangTua::where('email',$data->email_wali_santri)
-                ->first();
-            $judul = "Data Santri ".$data->nama_santri." telah diubah";
-            $isi_pesan = "Cek detailnya di aplikasi Nyantri";
-            if ($orang_tua->fcm_token != null){
-                sendFCM($judul,$isi_pesan,$orang_tua->fcm_token);
-            }
 
-
-            return redirect(route('santri.index'))
+            return redirect(route('pegawai.index'))
                 ->with('pesan_status', [
                     'tipe' => 'info',
                     'desc' => 'Data Berhasil diupdate',
-                    'judul' => 'Data Santri'
+                    'judul' => 'Data Pegawai'
                 ]);
         } else {
             Redirect::back()->with('pesan_status', [
@@ -217,48 +218,36 @@ class PegawaiController extends Controller
     }
 
     public function show($id){
-        $data = Santri::select('santri.*',
-            'orang_tua.*',
-            'users.name as nama_pesantren',
-            'orang_tua.name as nama_wali',
-            'santri.id_santri as id')
-            ->leftJoin('users','users.id','=','santri.id_pesantren')
-            ->leftJoin('orang_tua','orang_tua.email','=','santri.email_wali_santri')
-            ->where('santri.id_santri',$id)
+        $data = User::select('users.*')
+            ->where('id',$id)
             ->first();
 
-        $pelanggaran = Pelanggaran::where('id_santri',$id)
-            ->get();
-        $kitab = Kitab::select()
-            ->join('kitab_milik_santri','kitab_milik_santri.id_kitab','=','kitab.id_kitab')
-            ->where('kitab_milik_santri.id_santri',$id)
-            ->get();
-        $prestasi = Prestasi::where('id_santri',$id)
-            ->get();
-
-       
-
-        return view('back.santri.show', compact('data','pelanggaran','kitab','prestasi'));
+        return view('back.pegawai.show', compact('data'));
     }
 
 
     public function edit($id){
-        $data = Santri::select('santri.*','orang_tua.*','santri.id_pesantren as primary_pesantren','santri.id_santri as primary_santri')
-            ->leftJoin('orang_tua','orang_tua.email','=','santri.email_wali_santri')
-            ->where('santri.id_santri',$id)
+        $data = User::select('users.*')
+            ->where('users.id',$id)
             ->first();
 
-        $wali_santris = OrangTua::where('id_pesantren',$data->primary_pesantren)
-            ->get();
+        $jabatan = $data->jabatan;
+        if ($jabatan == "KDT"){
+            $nama_jabatan = "Kondektur";
+        }else if ($jabatan == "LIA"){
+            $nama_jabatan = "Penyelia";
+        }if ($jabatan == "KUPT"){
+            $nama_jabatan = "Kepala UPT";
+        }
 
-        return view('back.santri.edit', compact('data','wali_santris'));
+        return view('back.pegawai.edit', compact('data','nama_jabatan'));
     }
 
     public function destroy($id)
     {
         //
 
-        $info = Santri::withTrashed()->find($id);
+        $info = User::withTrashed()->find($id);
         if ($info->trashed()) {
             $delete = $info->forceDelete();
         } else {
@@ -272,50 +261,6 @@ class PegawaiController extends Controller
         } else {
             return Respon('', false, 'Gagal menghapus data', 200);
         }
-    }
-
-    public function aktivasi($id){
-        $data = Santri::findOrFail($id);
-        $pesantren = User::findOrFail($data->id_pesantren);
-
-        $res = [];
-
-        if ($pesantren->saldo > 10000){
-            $update = $data->update(array('status_aktivasi' => 1));
-
-            //update saldo pesantren
-            $new_saldo = $pesantren->saldo - 10000;
-            $update_pesantren = $pesantren->update(array('saldo' => $new_saldo));
-
-            //insert ke log
-            LogSaldo::create([
-                'id_pesantren' => $data->id_pesantren,
-                'jumlah' => 10000,
-                'keterangan' => "Aktivasi akun premium santri ".$data->nama_santri,
-                'created_by' => Auth::user()->id
-            ]);
-
-            if ($update){
-                $res['pesan'] = 'Aktivasi Akun Premium Santri ini telah berhasil';
-                $res['statusCode'] = 200;
-                $res['status'] = true;
-                $res['data'] = '';
-            }else{
-                $res['pesan'] = 'Aktivasi Akun Premium Santri ini gagal,coba lagi nanti';
-                $res['statusCode'] = 200;
-                $res['status'] = false;
-                $res['data'] = '';
-            }
-
-        }else{
-            $res['pesan'] = 'Saldo Pesantren tidak cukup';
-            $res['statusCode'] = 200;
-            $res['status'] = false;
-            $res['data'] = '';
-        }
-
-
-        return Respon($res['data'], $res['status'], $res['pesan'], $res['statusCode']);
     }
 
    

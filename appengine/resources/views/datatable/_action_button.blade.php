@@ -16,10 +16,6 @@
                     class="btn btn-danger btn-mini waves-effect waves-light"><span class="fal fa-trash"></span> Hapus
             </button>
         @endif
-        @if (stripos($button, 'A') !== false)
-                <button onclick="aktivasiTableData('{{ $aktivasi }}')" class="btn btn-edit text-white btn-warning btn-mini waves-effect waves-light"><span
-                            class="fal fa-star"></span> Aktivasi</button>
-        @endif
         @if (stripos($button, 'C') !== false)
                 <a href="{{ $cetak }}" class="btn btn-warning btn-mini waves-effect waves-light"><span
                         class="fal fa-print"></span> Cetak</a>
