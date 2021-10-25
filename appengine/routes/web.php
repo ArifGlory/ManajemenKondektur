@@ -41,6 +41,20 @@ Route::group([
 });
 Route::resource('pegawai', 'Back\PegawaiController')->middleware('auth');
 
+Route::get('/jadwal', 'Back\JadwalController@index')->middleware('auth')->name('jadwal');
+Route::group([
+    'prefix' => 'jadwal',
+    'middleware' => 'auth'
+], function () {
+    Route::get('data', [\App\Http\Controllers\Back\JadwalController::class, 'data'])->name('jadwal.data');
+    /* Route::get('create-multi', [\App\Http\Controllers\Back\JadwalController::class, 'createMulti'])->name('jadwal.create-multi');
+     Route::post('store-multi', [\App\Http\Controllers\Back\JadwalController::class, 'storeMulti'])->name('jadwal.store-multi');*/
+    Route::get('trash', [\App\Http\Controllers\Back\JadwalController::class, 'trash'])->name('jadwal.trash');
+    Route::post('restore/{jadwal}', [\App\Http\Controllers\Back\JadwalController::class, 'restore'])->name('jadwal.restore');
+});
+Route::resource('jadwal', 'Back\JadwalController')->middleware('auth');
+
+
 
 
 

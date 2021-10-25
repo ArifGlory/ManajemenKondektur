@@ -19,6 +19,12 @@
                 <span class="nav-link-text" data-i18n="nav.setting">Setting</span>
             </a>
         </li>
+        <li class="{{ Nav::isRoute('jadwal', 'active') }}">
+            <a href="{{ url('/jadwal') }}" title="Jadwal Dinas" data-filter-tags="Jadwal Dinas">
+                <i class="fal fa-calendar"></i>
+                <span class="nav-link-text" data-i18n="nav.jadwal">Data Jadwal</span>
+            </a>
+        </li>
     @endif
     <li class="nav-title">Fitur Utama</li>
     <li class="{{ Nav::isRoute('kelas', 'active') }}">
