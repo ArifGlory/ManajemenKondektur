@@ -223,3 +223,24 @@ if ((!function_exists('setFCMOption'))){
         return  $downstreamResponse->numberSuccess();
     }
 }
+if (!function_exists('hariIndo')) {
+    function hariIndo($day) {
+        $hari = "";
+        if ($day == "Monday"){
+            $hari = "Senin";
+        }else if ($day == "Tuesday"){
+            $hari = "Selasa";
+        }else if ($day == "Wednesday"){
+            $hari = "Rabu";
+        }else if ($day == "Thursday"){
+            $hari = "Kamis";
+        }else if ($day == "Friday"){
+            $hari = "Jumat";
+        }else if ($day == "Saturday"){
+            $hari = "Sabtu";
+        }else if ($day == "Sunday"){
+            $hari = "Minggu";
+        }
+        return $hari;
+    }
+}

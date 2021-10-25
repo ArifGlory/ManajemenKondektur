@@ -67,7 +67,7 @@
                         <div class="form-group row">
                             <label class="col-12 col-md-4 col-form-label">NIP</label>
                             <div class="col-sm-12 col-md-8">
-                                {!! Form::text('nip', null, ['class' => 'form-control', $errors->has('nip') ? 'form-control-danger' : '', 'placeholder' => 'Telepon']) !!}
+                                {!! Form::text('nip', null, ['class' => 'form-control', $errors->has('nip') ? 'form-control-danger' : '', 'placeholder' => 'NIP']) !!}
                                 @error('nip')
                                 <div class="col-form-label">
                                     <strong>{{ $message }}</strong>
@@ -79,7 +79,7 @@
                         <div class="form-group row">
                             <label class="col-12 col-md-4 col-form-label">Pangkat</label>
                             <div class="col-sm-12 col-md-8">
-                                {!! Form::text('pangkat', null, ['class' => 'form-control', $errors->has('pangkat') ? 'form-control-danger' : '', 'placeholder' => 'Telepon']) !!}
+                                {!! Form::text('pangkat', null, ['class' => 'form-control', $errors->has('pangkat') ? 'form-control-danger' : '', 'placeholder' => 'pangkat']) !!}
                                 @error('pangkat')
                                 <div class="col-form-label">
                                     <strong>{{ $message }}</strong>

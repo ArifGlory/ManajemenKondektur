@@ -80,7 +80,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-12 col-md-4 col-form-label">Jam Mulai Kedinasan</label>
+                            <label class="col-12 col-md-4 col-form-label">Jam Selesai Kedinasan</label>
                             <div class="col-sm-12 col-md-8">
                                 {!! Form::time('jam_selesai', null, ['class' => 'form-control', $errors->has('jam_selesai') ? 'form-control-danger' : '', 'placeholder' => 'Jam Selesai Dinas']) !!}
                                 @error('jam_selesai')
@@ -91,85 +91,17 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label class="col-12 col-md-4 col-form-label">Foto Pegawai</label>
-                            <div class="col-sm-12 col-md-8">
-                                <input accept="image/*" required id="foto" class="form-control @error('foto') is-invalid @enderror" type="file" name="foto">
-                                @error('foto')
-                                <div class="col-form-label">
-                                    <strong>{{ $message }}</strong>
-                                </div>
-                                @enderror
-                            </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label class="col-12 col-md-4 col-form-label">Jabatan</label>
-                            <div class="col-sm-12 col-md-8">
-                                <select name="jabatan" class="form-control select2">
-                                    <option value="KDT">Kondektur</option>
-                                    <option value="LIA">Penyelia</option>
-                                    <option value="KUPT">Kepala UPT</option>
-                                </select>
-                                @error('jabatan')
-                                <div class="col-form-label">
-                                    <strong>{{ $message }}</strong>
-                                </div>
-                                @enderror
-                            </div>
-                        </div>
-
-
-
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-12 col-md-4">
-                <div class="card">
-                    <div class="card-header bg-dark text-white">
-                        <div class="row">
-                            <div class="col">
-                                <h5 class="text-white">Data Login</h5>
-                                <span>Dibutuhkan agar user dapat login ke aplikasi.</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="form-group row">
-                            <label class="col-12 col-md-4 col-form-label">Email Pegawai</label>
-                            <div class="col-sm-12 col-md-8">
-                                {!! Form::text('email', null, ['class' => 'form-control', $errors->has('email') ? 'form-control-danger' : '', 'placeholder' => 'Email pegawai']) !!}
-                                @error('email')
-                                <div class="col-form-label">
-                                    <strong>{{ $message }}</strong>
-                                </div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-12 col-md-4 col-form-label">Password</label>
-                            <div class="col-sm-12 col-md-8">
-                                <input type="password" name="password" class="form-control" required placeholder="password pengguna">
-                                @error('password')
-                                <div class="col-form-label">
-                                    <strong>{{ $message }}</strong>
-                                </div>
-                                @enderror
-                            </div>
+                        <div class="panel-content text-right py-2 rounded-bottom border-faded border-left-0 border-right-0 border-bottom-0 text-muted p-4">
+                            <button onclick="saveData()" class="btn btn-info btn-sm waves-effect text-left"><i
+                                        class="fal fa-save"></i> Simpan Data
+                            </button>
                         </div>
 
                     </div>
                 </div>
             </div>
 
-            <div class="text-left">
-                <div class="panel-content text-right py-2 rounded-bottom border-faded border-left-0 border-right-0 border-bottom-0 text-muted p-4">
-                    <button onclick="saveData()" class="btn btn-info btn-sm waves-effect text-left"><i
-                                class="fal fa-save"></i> Simpan Data
-                    </button>
-                </div>
-            </div>
         </div>
     {!! Form::close() !!}
 @endsection

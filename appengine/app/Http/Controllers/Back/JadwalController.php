@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Back;
 
 use App\Http\Requests\ImportRequest;
+use App\Http\Requests\JadwalRequest;
 use App\Http\Requests\Pegawai2Request;
 use App\Imports\SantriDataImport;
 // use App\Models\PangkatGolongan;
@@ -63,27 +64,17 @@ class JadwalController extends Controller
                          * R = Restore = $restore
                          * M = Modal Dialog*/
                         $role = Auth::user()->jenis_user;
-                        if ($role != "admin"){
-                            $lihat = route('jadwal.show', $item->id);
-                            $edit = route('jadwal.edit', $item->id);
-                            $hapus = route('jadwal.destroy', $item->id);
-                            if ($item->status_aktivasi == 0){
-                                $button = 'LEHARM';
-                                return view('datatable._action_button', compact('item', 'button', 'lihat','edit', 'hapus'));
-                            }else{
-                                $button = 'LEHRM';
-                                return view('datatable._action_button', compact('item', 'button', 'lihat','edit', 'hapus'));
-                            }
+                        if ($role == "admin"){
+                            $lihat = route('jadwal.show', $item->id_jadwal);
+                            $edit = route('jadwal.edit', $item->id_jadwal);
+                            $hapus = route('jadwal.destroy', $item->id_jadwal);
+                            $button = 'LEHRM';
+                            return view('datatable._action_button', compact('item', 'button', 'lihat','edit', 'hapus'));
 
                         }else{
-                            $lihat = route('jadwal.show', $item->id);
-                            if ($item->status_aktivasi == 0){
-                                $button = 'LEHM';
-                                return view('datatable._action_button', compact('item', 'button', 'lihat'));
-                            }else{
-                                $button = 'LEHM';
-                                return view('datatable._action_button', compact('item', 'button', 'lihat'));
-                            }
+                            $lihat = route('jadwal.show', $item->id_jadwal);
+                            $button = 'LEHM';
+                            return view('datatable._action_button', compact('item', 'button', 'lihat'));
                         }
 
                     })
@@ -102,70 +93,28 @@ class JadwalController extends Controller
         return view('back.jadwal.create',compact('pegawai'));
     }
 
-    public function createMulti()
-    {
-        //
-        return view('back.pegawai.create_multi');
-    }
-
-    public function storeMulti(ImportRequest $request){
-        $nama_file = "";
-        if ($request->hasFile('file_excel')) {
-            $file = $request->file('file_excel');
-            $nama_file = round(microtime(true) * 1000) . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('/excel/'), $nama_file);
-        }
-
-        //$save =  Excel::import(new SantriDataImport(), public_path('/excel/'.$nama_file) );
-        $import = new SantriDataImport();
-        $import->import(public_path('/excel/'.$nama_file));
-
-
-        if ($import) {
-            return redirect(route('santri.index'))
-                ->with('pesan_status',[
-                    'tipe' => 'info',
-                    'desc' => 'Berhasil import data Santri',
-                    'judul' => 'Data Santri'
-                ]);
-        } else {
-            Redirect::back()->with('pesan_status', [
-                'tipe' => 'danger',
-                'desc' => 'Server Error',
-                'judul' => 'Terdapat kesalahan pada server.'
-            ]);
-        }
-
-    }
-
-    public function store(Pegawai2Request $request)
+    public function store(JadwalRequest $request)
     {
         //
         $request->validated();
-        $role = Auth::user()->jenis_user;
 
-        if ($request->hasFile('foto')) {
-            $image = $request->file('foto');
-            $photo = round(microtime(true) * 1000) . '.' . $image->getClientOriginalExtension();
-            $image->move('img/pegawai/', $photo);
-        }
+        $tanggal_jadwal = $request->input('tanggal_jadwal');
+        $hari = Carbon::parse($tanggal_jadwal)->format('l');
+        $hari = hariIndo($hari);
 
-        $save = User::create([
-            'name' => $request->input('name'),
-            'phone' => $request->input('phone'),
-            'nip' => $request->input('nip'),
-            'pangkat' => $request->input('pangkat'),
-            'jabatan' => $request->input('jabatan'),
-            'email' => $request->input('email'),
-            'password' => $request->input('password'),
-            'foto' => $photo
+        $save = Jadwal::create([
+            'id_pegawai' => $request->input('id_pegawai'),
+            'hari' => $hari,
+            'tanggal_jadwal' => $tanggal_jadwal,
+            'jam_mulai' => $request->input('jam_mulai'),
+            'jam_selesai' => $request->input('jam_selesai')
         ]);
         if ($save) {
-            return redirect(route('pegawai.index'))
+            return redirect(route('jadwal.index'))
                 ->with('pesan_status',[
                     'tipe' => 'info',
-                    'desc' => 'Berhasil menambahkan Pegawai',
-                    'judul' => 'Data Pegawai'
+                    'desc' => 'Berhasil menambahkan Jadwal',
+                    'judul' => 'Data Jadwal'
                 ]);
         } else {
             Redirect::back()->with('pesan_status', [
