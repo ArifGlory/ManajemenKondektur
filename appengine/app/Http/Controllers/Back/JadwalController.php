@@ -190,31 +190,16 @@ class JadwalController extends Controller
         //
 
         $requestData = $request->all();
-
-        $data = User::findOrFail($id);
-
-        if ($request->hasFile('foto')) {
-            //hapus foto lama
-            if ($data->foto != "padrao.png"){
-                if (file_exists('img/pegawai/' . $data->foto)) {
-                    unlink('img/pegawai/' . $data->foto);
-                }
-            }
-
-            $image = $request->file('foto');
-            $photo = round(microtime(true) * 1000) . '.' . $image->getClientOriginalExtension();
-            $image->move('img/pegawai/', $photo);
-            $requestData['foto'] = $photo;
-        }
+        $data = Jadwal::findOrFail($id);
 
         $update = $data->update($requestData);
         if ($update) {
 
-            return redirect(route('pegawai.index'))
+            return redirect(route('jadwal.index'))
                 ->with('pesan_status', [
                     'tipe' => 'info',
                     'desc' => 'Data Berhasil diupdate',
-                    'judul' => 'Data Pegawai'
+                    'judul' => 'Data Jadwal'
                 ]);
         } else {
             Redirect::back()->with('pesan_status', [
@@ -249,12 +234,13 @@ class JadwalController extends Controller
     {
         //
 
-        $info = Jadwal::withTrashed()->find($id);
-        if ($info->trashed()) {
+        $info = Jadwal::find($id);
+        $delete = $info->destroy($id);
+        /*if ($info->trashed()) {
             $delete = $info->forceDelete();
         } else {
             $delete = $info->destroy($id);
-        }
+        }*/
 
         $response = [];
         if($delete) {
