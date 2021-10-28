@@ -54,35 +54,23 @@
                         Data Jadwal Terbaru
                     </h2>
                 </div>
-                <div class="panel-container show" role="content"><div class="loader"><i class="fal fa-spinner-third fa-spin-4x fs-xxl"></i></div>
-                    <div class="panel-content p-0">
-                        <div class="col-md-12">
-                            <table class="table table-bordered table-responsive">
-                                @php
-                                    $no = 1;
-                                @endphp
-                                <thead>
-                                    <th>No.</th>
-                                    <th>Hari / Tanggal</th>
-                                    <th>Nama</th>
-                                    <th>NIPP</th>
-                                </thead>
-                                <tbody>
-                                    {{--@foreach($pesantren_new as $val)
-                                        <tr>
-                                            <td>{{$no++}}</td>
-                                            <td>{{$val->name}}</td>
-                                            <td>{{$val->alamat}}</td>
-                                            <td>{{$val->nama_pengasuh}}</td>
-                                        </tr>
-                                    @endforeach--}}
-                                </tbody>
-                            </table>
-                            <div class="col-md-12 mb-3">
-                                <a href="#" class="btn btn-primary btn-sm text-white pull-right"> Lihat lebih banyak</a>
-                            </div>
-                        </div>
-
+                <div class="panel-container show">
+                    <div class="panel-content">
+                        <!-- datatable start -->
+                        <table class="table table-bordered table-hover table-striped w-100" id="jadwal-table">
+                            <thead>
+                            <tr>
+                                <td width="2%">No</td>
+                                <td>Nama</td>
+                                <td>NIP</td>
+                                <td>Hari</td>
+                                <td>Tanggal</td>
+                                <td>Jam</td>
+                                <td width="20%">Action</td>
+                            </tr>
+                            </thead>
+                        </table>
+                        <!-- datatable end -->
                     </div>
                 </div>
             </div>
@@ -108,8 +96,48 @@
         var table;
         $(function(){
             'use strict';
-            table = $('#wali_santri-table').DataTable({
+            table = $('#jadwal-table').DataTable({
                 responsive: true,
+                language: {
+                    searchPlaceholder: 'Cari...',
+                    sSearch: '',
+                    lengthMenu: '_MENU_ post/halaman',
+                },
+                processing: true,
+                serverSide: true,
+                'ajax': {
+                    'url': '{{ route('jadwal.data-cari-jadwal') }}',
+                    'type': 'GET',
+                },
+                columns: [
+                    {
+                        data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: true, searchable: false
+                    },
+                    {
+                        data: 'name', name: 'name', orderable: true,
+                    },
+                    {
+                        data: 'nip', name: 'nip', orderable: true,
+                    },
+                    {
+                        data: 'hari', name: 'hari', orderable: true,
+                    },
+                    {
+                        data: 'tanggal_jadwal', name: 'tanggal_jadwal', orderable: true,
+                    },
+                    {
+                        data: 'waktu', name: 'waktu', orderable: true,
+                    },
+                    {
+                        data: '_action', name: '_action'
+                    }
+                ],
+                columnDefs: [
+                    {
+                        className: 'text-center',
+                        targets: [0, 1 , 6]
+                    }
+                ],
             });
         });
     </script>

@@ -47,6 +47,7 @@ Route::group([
     'prefix' => 'jadwal',
     'middleware' => 'auth'
 ], function () {
+    Route::get('tukar-jadwal', [\App\Http\Controllers\Back\JadwalController::class, 'listTukarJadwal'])->name('jadwal.tukar-jadwal');
     Route::get('data', [\App\Http\Controllers\Back\JadwalController::class, 'data'])->name('jadwal.data');
     Route::get('data-cari-jadwal', [\App\Http\Controllers\Back\JadwalController::class, 'dataCariJadwal'])->name('jadwal.data-cari-jadwal');
     Route::get('tukar/{id}', [\App\Http\Controllers\Back\JadwalController::class, 'ajukanTukar'])->name('jadwal.tukar');
@@ -54,6 +55,7 @@ Route::group([
      Route::post('store-multi', [\App\Http\Controllers\Back\JadwalController::class, 'storeMulti'])->name('jadwal.store-multi');*/
     Route::get('trash', [\App\Http\Controllers\Back\JadwalController::class, 'trash'])->name('jadwal.trash');
     Route::post('restore/{jadwal}', [\App\Http\Controllers\Back\JadwalController::class, 'restore'])->name('jadwal.restore');
+    Route::post('store-penukaran', [\App\Http\Controllers\Back\JadwalController::class, 'storePenukaran'])->name('jadwal.store-penukaran');
 });
 Route::resource('jadwal', 'Back\JadwalController')->middleware('auth');
 

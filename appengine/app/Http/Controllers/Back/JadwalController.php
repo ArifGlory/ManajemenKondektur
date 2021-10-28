@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Back;
 use App\Http\Requests\ImportRequest;
 use App\Http\Requests\JadwalRequest;
 use App\Http\Requests\Pegawai2Request;
+use App\Http\Requests\TukarJadwalRequest;
 use App\Imports\SantriDataImport;
 // use App\Models\PangkatGolongan;
 use App\Models\Jadwal;
+use App\Models\TukarJadwal;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -140,8 +142,48 @@ class JadwalController extends Controller
             ->make(true);
     }
 
-    public function ajukanTukar($id_jadwal){
+    public function listTukarJadwal(Request $request){
 
+    }
+
+    public function ajukanTukar($id_jadwal){
+        $data = Jadwal::select('users.name','users.nip','users.id','jadwal.*')
+            ->join('users','users.id','=','jadwal.id_pegawai')
+            ->where('id_jadwal',$id_jadwal)
+            ->first();
+
+        return view('back.jadwal.tukar', compact('data'));
+    }
+
+    public function storePenukaran(TukarJadwalRequest $request){
+        $request->validated();
+
+        $tanggal_jadwal_tukar = $request->input('tanggal_jadwal_tukar');
+        $hari_tukar = Carbon::parse($tanggal_jadwal_tukar)->format('l');
+        $hari_tukar = hariIndo($hari_tukar);
+
+        $save = TukarJadwal::create([
+            'id_jadwal' => $request->input('id_jadwal'),
+            'id_pegawai' => $request->input('id_pegawai'),
+            'hari_tukar' => $hari_tukar,
+            'tanggal_jadwal_tukar' => $tanggal_jadwal_tukar,
+            'jam_mulai_tukar' => $request->input('jam_mulai_tukar'),
+            'jam_selesai_tukar' => $request->input('jam_selesai_tukar')
+        ]);
+        if ($save) {
+            return redirect(route('jadwal.tukar-jadwal'))
+                ->with('pesan_status',[
+                    'tipe' => 'info',
+                    'desc' => 'Berhasil menambahkan Pengajuan',
+                    'judul' => 'Data Penukaran Jadwal'
+                ]);
+        } else {
+            Redirect::back()->with('pesan_status', [
+                'tipe' => 'danger',
+                'desc' => 'Server Error',
+                'judul' => 'Terdapat kesalahan pada server.'
+            ]);
+        }
     }
 
     public function create()
