@@ -18,6 +18,7 @@ Auth::routes([
 //back-end
 Route::get('/', 'HomeController@dashboard')->middleware('auth')->name('dashboard');
 Route::get('/dashboard', 'HomeController@dashboard')->middleware('auth')->name('dashboard');
+Route::get('/cari-jadwal', 'HomeController@cariJadwal')->middleware('auth')->name('cari-jadwal');
 
 
 Route::group([
@@ -47,6 +48,8 @@ Route::group([
     'middleware' => 'auth'
 ], function () {
     Route::get('data', [\App\Http\Controllers\Back\JadwalController::class, 'data'])->name('jadwal.data');
+    Route::get('data-cari-jadwal', [\App\Http\Controllers\Back\JadwalController::class, 'dataCariJadwal'])->name('jadwal.data-cari-jadwal');
+    Route::get('tukar/{id}', [\App\Http\Controllers\Back\JadwalController::class, 'ajukanTukar'])->name('jadwal.tukar');
     /* Route::get('create-multi', [\App\Http\Controllers\Back\JadwalController::class, 'createMulti'])->name('jadwal.create-multi');
      Route::post('store-multi', [\App\Http\Controllers\Back\JadwalController::class, 'storeMulti'])->name('jadwal.store-multi');*/
     Route::get('trash', [\App\Http\Controllers\Back\JadwalController::class, 'trash'])->name('jadwal.trash');

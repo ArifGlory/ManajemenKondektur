@@ -57,27 +57,14 @@ class HomeController extends Controller
             return view('back.dashboard');
 
         }else{
-            $jml_kelas = Kelas::where('id_pesantren',Auth::user()->id)
-                ->count();
-            $jml_santri = Santri::where('id_pesantren',Auth::user()->id)
-                ->count();
-            $jml_jadwal = JadwalAktivitas::where('id_pesantren',Auth::user()->id)
-                ->count();
 
-            $santri_new =  Santri::where('id_pesantren',Auth::user()->id)
-                ->orderBy('id_santri',"DESC")
-                ->limit(5)
-                ->get();
-            $jadwal_new = JadwalAktivitas::where('id_pesantren',Auth::user()->id)
-                ->orderBy('id_jadwal',"DESC")
-                ->limit(5)
-                ->get();
-            $saldo = Auth::user()->saldo;
-
-            return view('back.dashboard_pesantren',compact('jml_kelas','santri_new','jml_santri','jml_jadwal','jadwal_new','saldo'));
+            return view('back.dashboard_pegawai');
         }
 
+    }
 
+    public function cariJadwal(Request $request){
+        return view('back.jadwal.index_pegawai');
     }
 
 

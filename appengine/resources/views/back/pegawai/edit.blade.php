@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Tambah Pegawai')
+@section('title', 'Ubah Pegawai')
 
 @push('css')
     <link rel="stylesheet" media="screen, print" href="{{ asset('back-end/css/formplugins/select2/select2.bundle.css') }}">

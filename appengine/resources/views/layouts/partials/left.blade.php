@@ -27,10 +27,10 @@
         </li>
     @endif
     <li class="nav-title">Fitur Utama</li>
-    <li class="{{ Nav::isRoute('kelas', 'active') }}">
-        <a href="{{ url('/kelas') }}" title="Kelas" data-filter-tags="kelas">
+    <li class="{{ Nav::isRoute('cari-jadwal', 'active') }}">
+        <a href="{{ url('/cari-jadwal') }}" title="Kelas" data-filter-tags="cari-jadwal">
             <i class="fal fa-calendar"></i>
-            <span class="nav-link-text" data-i18n="nav.kelas">Cari Jadwal</span>
+            <span class="nav-link-text" data-i18n="nav.cari-jadwal">Cari Jadwal</span>
         </a>
     </li>
     <li class="{{ Nav::isRoute('kitab', 'active') }}">

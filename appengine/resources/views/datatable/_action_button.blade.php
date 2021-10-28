@@ -20,6 +20,10 @@
                 <a href="{{ $cetak }}" class="btn btn-warning btn-mini waves-effect waves-light"><span
                         class="fal fa-print"></span> Cetak</a>
         @endif
+        @if (stripos($button, 'T') !== false)
+            <a href="{{ $tukar }}" class="btn btn-primary btn-mini waves-effect waves-light"><span
+                            class="fal fa-reply"></span> Ajukan Tukar Jadwal</a>
+        @endif
     @else
         @if (stripos($button, 'R') !== false)
             <button onclick="restoreTableData('{{ $restore }}')" type="button"

@@ -51,6 +51,10 @@
                                     <label class="form-label">Nama</label>
                                     <h5>{{$data->name}}</h5>
                                 </div>
+                                <div class="form-group mt-3">
+                                    <label class="form-label">Email</label>
+                                    <h5>{{$data->email}}</h5>
+                                </div>
                                 <div class="form-group">
                                     <label class="form-label">Telepon</label>
                                     <h5>{{$data->phone}}</h5>

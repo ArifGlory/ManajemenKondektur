@@ -114,7 +114,7 @@
                     </div>
                 </div>
                 <div class="info-card">
-                    <img src="https://api.nyantri.net/img/sekolah/admin.png" class="profile-image rounded-circle" alt="User">
+                    <img src="{{ asset('img/pegawai/'.Auth::user()->foto) }}" class="profile-image rounded-circle" alt="User">
                     <div class="info-card-text">
                         <a href="#" class="d-flex align-items-center text-white">
                                     <span class="font-weight-bold text-truncate text-truncate-sm d-inline-block">

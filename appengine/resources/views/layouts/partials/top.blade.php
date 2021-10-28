@@ -392,20 +392,24 @@
         </div>--}}
         <div>
             <a href="#" data-toggle="dropdown" title="{{ Auth::user()->email }}" class="header-icon d-flex align-items-center justify-content-center ml-2">
-                <img src="https://api.nyantri.net/img/sekolah/admin.png" class="profile-image rounded-circle" alt="{{ Auth::user()->name }}">
+                <img src="{{ asset('img/pegawai/'.Auth::user()->foto) }}" class="profile-image rounded-circle" alt="{{ Auth::user()->name }}">
             </a>
             <div class="dropdown-menu dropdown-menu-animated dropdown-lg">
                 <div class="dropdown-header bg-trans-gradient d-flex flex-row py-4 rounded-top">
                     <div class="d-flex flex-row align-items-center mt-1 mb-1 color-white">
-                                            <span class="mr-2">
-                                                <img src="https://api.nyantri.net/img/sekolah/admin.png" class="rounded-circle profile-image" alt="Dr. Codex Lantern">
-                                            </span>
+                        @if(Auth::user()->foto)
+                            <span class="mr-2">
+                                <img src="{{ asset('img/pegawai/'.Auth::user()->foto) }}" class="rounded-circle profile-image" alt="imgprofil">
+                            </span>
+                        @else
+                            <span class="mr-2">
+                                <img src="{{ asset('img/pegawai/padrao.png') }}" class="rounded-circle profile-image" alt="imgprofil">
+                            </span>
+                        @endif
+
                         <div class="info-card-text">
                             <div class="fs-lg text-truncate text-truncate-lg">{{ Auth::user()->name }}</div>
                             <span class="text-truncate text-truncate-md opacity-80">{{ Auth::user()->email }}</span>
-                            @if(Auth::user()->jenis_user != "admin")
-                                <span class="text-truncate text-truncate-md opacity-80"> Saldo : Rp.  {{ number_format(Auth::user()->saldo,0,',','.')}}</span>
-                            @endif
                         </div>
                     </div>
                 </div>
