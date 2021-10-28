@@ -33,10 +33,10 @@
             <span class="nav-link-text" data-i18n="nav.cari-jadwal">Cari Jadwal</span>
         </a>
     </li>
-    <li class="{{ Nav::isRoute('kitab', 'active') }}">
-        <a href="{{ url('/kitab') }}" title="Kelas" data-filter-tags="kitab">
+    <li class="{{ Nav::isRoute('jadwal.tukar-jadwal', 'active') }}">
+        <a href="{{ url('/jadwal/tukar-jadwal') }}" title="Kelas" data-filter-tags="jadwal.tukar-jadwal">
             <i class="fal fa-book"></i>
-            <span class="nav-link-text" data-i18n="nav.kelas">Tukar Jadwal</span>
+            <span class="nav-link-text" data-i18n="nav.jadwal.tukar-jadwal">Tukar Jadwal</span>
         </a>
     </li>
 </ul>

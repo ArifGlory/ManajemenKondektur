@@ -142,8 +142,74 @@ class JadwalController extends Controller
             ->make(true);
     }
 
-    public function listTukarJadwal(Request $request){
+    public function dataTukarJadwal(Request $request)
+    {
+        $role = Auth::user()->jenis_user;
+        if ($role == "admin"){
+            $data = TukarJadwal::select('users.name','users.nip','users.id as id_user','jadwal.*','tukar_jadwal.*')
+                ->join('users','users.id','=','tukar_jadwal.id_pegawai')
+                ->join('jadwal','jadwal.id_jadwal','=','tukar_jadwal.id_jadwal')
+                ->orderBy('jadwal.created_at', 'DESC')
+                ->get();
+        }else{
+            $data = TukarJadwal::select('users.name','users.nip','users.id as id_user','jadwal.*','tukar_jadwal.*')
+                ->join('users','users.id','=','tukar_jadwal.id_pegawai')
+                ->join('jadwal','jadwal.id_jadwal','=','tukar_jadwal.id_jadwal')
+                ->where('tukar_jadwal.id_pegawai',Auth::user()->id)
+                ->orderBy('jadwal.created_at', 'DESC')
+                ->get();
+        }
 
+        return Datatables::of($data)
+            ->addColumn('waktu',function ($item){
+                $waktu = $item->jam_mulai." - ".$item->jam_selesai;
+
+                return $waktu;
+            })
+            ->editColumn('tanggal_jadwal',function($item){
+                $tanggal_jadwal = $item->tanggal_jadwal;
+                $tanggal_jadwal = Carbon::parse($tanggal_jadwal)->format('d M Y');
+
+                return $tanggal_jadwal;
+            })
+            ->editColumn('tanggal_jadwal_tukar',function($item){
+                $tanggal_jadwal_tukar = $item->tanggal_jadwal_tukar;
+                $tanggal_jadwal_tukar = Carbon::parse($tanggal_jadwal_tukar)->format('d M Y');
+
+                return $tanggal_jadwal_tukar;
+            })
+            ->addColumn('_action', function ($item) {/*
+                         /*
+                         * L = Lihat => $lihat
+                         * C = Cetak => $cetak
+                         * E = Edit => $edit
+                         * H = Hapus => $hapus
+                         * R = Restore = $restore
+                         * M = Modal Dialog*/
+                $role = Auth::user()->jenis_user;
+                $id_user = Auth::user()->id;
+                if ($role == "admin"){
+                    $lihat = route('jadwal.show-tukar-jadwal', $item->id_tukar_jadwal);
+                    $button = 'LEHRM';
+                    return view('datatable._action_button', compact('item', 'button', 'lihat'));
+
+                }else{
+                    if ($item->id_user == $id_user){
+                        $lihat = route('jadwal.show-tukar-jadwal', $item->id_tukar_jadwal);
+                        $button = 'L';
+                        return view('datatable._action_button', compact('item', 'button', 'lihat'));
+                    }
+
+                }
+
+            })
+            ->escapeColumns([])
+            ->addIndexColumn()
+            ->make(true);
+    }
+
+    public function listTukarJadwal(Request $request){
+        return view('back.jadwal.index_tukar_jadwal');
     }
 
     public function ajukanTukar($id_jadwal){
@@ -260,6 +326,10 @@ class JadwalController extends Controller
             ->first();
 
         return view('back.jadwal.show', compact('data'));
+    }
+
+    public function showTukarJadwal($id_tukar_jadwal){
+
     }
 
 

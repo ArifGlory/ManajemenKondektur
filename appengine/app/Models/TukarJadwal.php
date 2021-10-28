@@ -21,6 +21,7 @@ class TukarJadwal extends Model
         'tanggal_jadwal_tukar',
         'jam_mulai_tukar',
         'jam_selesai_tukar',
+        'status',
         'created_at',
         'updated_at'
     ];
