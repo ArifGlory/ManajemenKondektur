@@ -8,6 +8,7 @@ use App\Models\Dokumen;
 use App\Models\Iklan;
 use App\Models\Infografis;
 use App\Models\Jabatan;
+use App\Models\Jadwal;
 use App\Models\JadwalAktivitas;
 use App\Models\JenisSk;
 use App\Models\Kelas;
@@ -54,11 +55,17 @@ class HomeController extends Controller
         $role = Auth::user()->jenis_user;
         if ($role == "admin"){
 
-            return view('back.dashboard');
+            $jml_pegawai = User::where('jenis_user','user')
+                ->count();
+            $jml_jadwal = Jadwal::count();
+
+            return view('back.dashboard',compact('jml_jadwal','jml_pegawai'));
 
         }else{
-
-            return view('back.dashboard_pegawai');
+            $jml_pegawai = User::where('jenis_user','user')
+                ->count();
+            $jml_jadwal = Jadwal::count();
+            return view('back.dashboard_pegawai',compact('jml_jadwal','jml_pegawai'));
         }
 
     }

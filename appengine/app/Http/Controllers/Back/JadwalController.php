@@ -329,7 +329,15 @@ class JadwalController extends Controller
     }
 
     public function showTukarJadwal($id_tukar_jadwal){
+        $data = TukarJadwal::select('users.name','users.nip','users.id as id_user',
+            'jadwal.hari','jadwal.tanggal_jadwal','jadwal.jam_mulai','jadwal.jam_selesai',
+            'tukar_jadwal.*')
+            ->join('users','users.id','=','tukar_jadwal.id_pegawai')
+            ->join('jadwal','jadwal.id_jadwal','=','tukar_jadwal.id_jadwal')
+            ->where('id_tukar_jadwal',$id_tukar_jadwal)
+            ->first();
 
+        return view('back.jadwal.show_tukar_jadwal', compact('data'));
     }
 
 

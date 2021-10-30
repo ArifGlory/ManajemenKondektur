@@ -27,7 +27,7 @@
             <div class="p-3 bg-warning-400 rounded overflow-hidden position-relative text-white mb-g">
                 <div class="">
                     <h3 class="display-4 d-block l-h-n m-0 fw-500">
-                        0
+                        {{$jml_pegawai}}
                         <small class="m-0 l-h-n">Jumlah Kondektur Terdaftar</small>
                     </h3>
                 </div>
@@ -38,7 +38,7 @@
             <div class="p-3 bg-success-200 rounded overflow-hidden position-relative text-white mb-g">
                 <div class="">
                     <h3 class="display-4 d-block l-h-n m-0 fw-500">
-                       0
+                       {{$jml_jadwal}}
                         <small class="m-0 l-h-n">Jumlah Jadwal</small>
                     </h3>
                 </div>
