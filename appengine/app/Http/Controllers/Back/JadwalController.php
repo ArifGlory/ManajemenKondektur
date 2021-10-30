@@ -190,7 +190,7 @@ class JadwalController extends Controller
                 $id_user = Auth::user()->id;
                 if ($role == "admin"){
                     $lihat = route('jadwal.show-tukar-jadwal', $item->id_tukar_jadwal);
-                    $button = 'LEHRM';
+                    $button = 'L';
                     return view('datatable._action_button', compact('item', 'button', 'lihat'));
 
                 }else{
@@ -338,6 +338,29 @@ class JadwalController extends Controller
             ->first();
 
         return view('back.jadwal.show_tukar_jadwal', compact('data'));
+    }
+
+    public  function updateTukarJadwal(Request $request){
+        $requestData = $request->all();
+        $id = $requestData['id_tukar_jadwal'];
+        $data = TukarJadwal::findOrFail($id);
+
+        $update = $data->update($requestData);
+        if ($update) {
+
+            return redirect(route('jadwal.tukar-jadwal'))
+                ->with('pesan_status', [
+                    'tipe' => 'info',
+                    'desc' => 'Data Berhasil diupdate',
+                    'judul' => 'Data Tukar Jadwal'
+                ]);
+        } else {
+            Redirect::back()->with('pesan_status', [
+                'tipe' => 'error',
+                'desc' => 'Server Error',
+                'judul' => 'Terdapat kesalahan pada server.'
+            ]);
+        }
     }
 
 

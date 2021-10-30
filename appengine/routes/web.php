@@ -53,6 +53,7 @@ Route::group([
     Route::get('data-tukar-jadwal', [\App\Http\Controllers\Back\JadwalController::class, 'dataTukarJadwal'])->name('jadwal.data-tukar-jadwal');
     Route::get('tukar/{id}', [\App\Http\Controllers\Back\JadwalController::class, 'ajukanTukar'])->name('jadwal.tukar');
     Route::get('show-tukar-jadwal/{id}', [\App\Http\Controllers\Back\JadwalController::class, 'showTukarJadwal'])->name('jadwal.show-tukar-jadwal');
+    Route::put('update-tukar-jadwal', [\App\Http\Controllers\Back\JadwalController::class, 'updateTukarJadwal'])->name('jadwal.update-tukar-jadwal');
     /* Route::get('create-multi', [\App\Http\Controllers\Back\JadwalController::class, 'createMulti'])->name('jadwal.create-multi');
      Route::post('store-multi', [\App\Http\Controllers\Back\JadwalController::class, 'storeMulti'])->name('jadwal.store-multi');*/
     Route::get('trash', [\App\Http\Controllers\Back\JadwalController::class, 'trash'])->name('jadwal.trash');

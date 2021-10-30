@@ -56,6 +56,12 @@
                                     <h4>{{$data->nip}}</h4>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group mt-5 ">
+                                    <label class="form-label">Status Ajuan Tukar Jadwal</label>
+                                    <h2>{{$data->status}}</h2>
+                                </div>
+                            </div>
                         </div>
                         <div class="row mt-5">
                             <div class="col-md-6">
@@ -114,6 +120,62 @@
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="panel">
+                <div class="panel-hdr">
+                    <h2>
+                        <strong id="title-table">Ubah Status </strong> <span class="fw-300"><i>Tukar jadwal</i></span>
+                    </h2>
+                    <div class="panel-toolbar">
+                        <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
+                        <button class="btn btn-panel" data-action="panel-fullscreen" data-toggle="tooltip" data-offset="0,10" data-original-title="Fullscreen"></button>
+                        <button class="btn btn-panel" data-action="panel-close" data-toggle="tooltip" data-offset="0,10" data-original-title="Close"></button>
+                    </div>
+                </div>
+                @if(Auth::user()->jenis_user == "admin")
+                    {!! Form::model($data,['route' => ['jadwal.update-tukar-jadwal', $data->id_tukar_jadwal], 'method' => 'PUT', 'id' => 'form-pegawai', 'files' => true]) !!}
+                        <div class="panel-container show">
+                            <div class="panel-content">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group mt-2">
+                                            <h3>Ubah Status Penukaran Jadwal</h3>
+                                        </div>
+                                        <div class="form-group row">
+                                            <input name="id_tukar_jadwal" type="hidden" value="{{$data->id_tukar_jadwal}}">
+                                            <label class="col-12 col-md-4 col-form-label">Status Tukar Jadwal</label>
+                                            <div class="col-sm-12">
+                                                <select name="status" class="form-control select2">
+                                                    <option value="{{$data->status}}">Terpilih - {{$data->status}}</option>
+                                                    <option value="Menunggu">Menunggu</option>
+                                                    <option value="Diterima">Diterima</option>
+                                                    <option value="Ditolak">Ditolak</option>
+                                                </select>
+                                                @error('status')
+                                                <div class="col-form-label">
+                                                    <strong>{{ $message }}</strong>
+                                                </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="text-left">
+                                            <div class="panel-content text-right py-2 rounded-bottom border-faded border-left-0 border-right-0 border-bottom-0 text-muted p-4">
+                                                <button onclick="saveData()" class="btn btn-info btn-sm waves-effect text-left"><i
+                                                            class="fal fa-save"></i> Simpan Perubahan Data
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {!! Form::close() !!}
+                @endif
+            </div>
+        </div>
+    </div>
 @endsection
 @push('scripts')
     @include('layouts.partials._helper_js')
@@ -145,11 +207,29 @@
     @include('datatable._js')
     {{--Fungsi script di tampilan transaksi pengguna--}}
     <script src="{{ asset('back-end/js/datagrid/datatables/datatables.bundle.js') }}"></script>
+    <script src="{{ asset('back-end/js/formplugins/select2/select2.bundle.js') }}"></script>
     <script>
-        /*var table;
-        $(function(){
-            'use strict';
-            table = $('#dokumen-table').DataTable();
-        });*/
+        function saveData() {
+            event.preventDefault();
+            swal.fire({
+                title: "Submit?",
+                text: "Pastikan kembali data yang diisi.",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-info",
+                cancelButtonClass: "btn-danger",
+                confirmButtonText: "Simpan",
+                cancelButtonText: "Tidak",
+            }).then((result) => {
+                if (result.value) {
+                    $('#form-pegawai').submit()
+                    showLoading(true);
+                }
+            })
+        }
+        $('.select2').select2({
+            width: '100%',
+            placeholder: "Pilih.."
+        })
     </script>
 @endpush
