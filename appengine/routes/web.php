@@ -48,6 +48,7 @@ Route::group([
     'middleware' => 'auth'
 ], function () {
     Route::get('tukar-jadwal', [\App\Http\Controllers\Back\JadwalController::class, 'listTukarJadwal'])->name('jadwal.tukar-jadwal');
+    Route::get('cetak', [\App\Http\Controllers\Back\JadwalController::class, 'cetakJadwal'])->name('jadwal.cetak');
     Route::get('data', [\App\Http\Controllers\Back\JadwalController::class, 'data'])->name('jadwal.data');
     Route::get('data-cari-jadwal', [\App\Http\Controllers\Back\JadwalController::class, 'dataCariJadwal'])->name('jadwal.data-cari-jadwal');
     Route::get('data-tukar-jadwal', [\App\Http\Controllers\Back\JadwalController::class, 'dataTukarJadwal'])->name('jadwal.data-tukar-jadwal');

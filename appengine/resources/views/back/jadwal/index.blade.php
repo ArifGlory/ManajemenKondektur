@@ -21,6 +21,7 @@
         <div class="btn-group btn-group-sm text-center float-right">
             @if(Auth::user()->jenis_user == "admin")
                 <a href="{{ url('/jadwal/create') }}" class="btn btn-primary btn-mini waves-effect waves-light"><span class="fal fa-plus"></span> Tambah Jadwal</a>
+                <a href="{{ url('/jadwal/cetak') }}" class="btn btn-success btn-mini waves-effect waves-light"><span class="fal fa-print"></span> Cetak Jadwal</a>
             @endif
         </div>
     </div>

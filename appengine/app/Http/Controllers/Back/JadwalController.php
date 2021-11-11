@@ -43,7 +43,7 @@ class JadwalController extends Controller
                 $role = Auth::user()->jenis_user;
                 $data = Jadwal::select('users.name','users.nip','jadwal.*')
                     ->join('users','users.id','=','jadwal.id_pegawai')
-                    ->orderBy('jadwal.created_at', 'DESC')
+                    ->orderBy('jadwal.tanggal_jadwal', 'ASC')
                     ->get();
                 return Datatables::of($data)
                     ->addColumn('waktu',function ($item){
@@ -392,6 +392,22 @@ class JadwalController extends Controller
         } else {
             return Respon('', false, 'Gagal menghapus data', 200);
         }
+    }
+
+    public function cetakJadwal(Request $request){
+        $current_month = date('m');
+        $current_year = date('Y');
+        $bulan_aktif = bulanIndo($current_month);
+
+        $data = Jadwal::select('users.name','users.nip','jadwal.*')
+            ->join('users','users.id','=','jadwal.id_pegawai')
+            ->whereYear('jadwal.tanggal_jadwal', '=', $current_year)
+            ->whereMonth('jadwal.tanggal_jadwal', '=', $current_month)
+            ->orderBy('jadwal.tanggal_jadwal', 'ASC')
+            ->groupBy('jadwal.tanggal_jadwal')
+            ->get();
+
+        return view('back.jadwal.report_jadwal', compact('data','bulan_aktif','current_year'));
     }
 
    
