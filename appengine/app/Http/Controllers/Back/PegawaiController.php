@@ -44,13 +44,13 @@ class PegawaiController extends Controller
 
                 return Datatables::of($data)
                     ->editColumn('jabatan',function ($item){
-                        if ($item->jabatan == "KDT"){
+                        if ($item->jabatan == "KDR"){
                             $nama_jabatan = "Kondektur";
                         }else if ($item->jabatan == "LIA"){
                             $nama_jabatan = "Penyelia";
-                        }if ($item->jabatan == "KUPT"){
+                        }/*if ($item->jabatan == "KUPT"){
                             $nama_jabatan = "Kepala UPT";
-                        }
+                        }*/
 
                         return $nama_jabatan;
                     })
@@ -232,7 +232,7 @@ class PegawaiController extends Controller
             ->first();
 
         $jabatan = $data->jabatan;
-        if ($jabatan == "KDT"){
+        if ($jabatan == "KDR"){
             $nama_jabatan = "Kondektur";
         }else if ($jabatan == "LIA"){
             $nama_jabatan = "Penyelia";

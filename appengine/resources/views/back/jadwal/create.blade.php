@@ -92,6 +92,7 @@
                         </div>
 
 
+
                         <div class="panel-content text-right py-2 rounded-bottom border-faded border-left-0 border-right-0 border-bottom-0 text-muted p-4">
                             <button onclick="saveData()" class="btn btn-info btn-sm waves-effect text-left"><i
                                         class="fal fa-save"></i> Simpan Data

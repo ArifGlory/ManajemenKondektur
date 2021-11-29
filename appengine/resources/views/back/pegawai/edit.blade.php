@@ -93,9 +93,9 @@
                             <div class="col-sm-12 col-md-8">
                                 <select name="jabatan" class="form-control select2">
                                     <option value="{{$data->jabatan}}">Terpilih - {{$nama_jabatan}}</option>
-                                    <option value="KDT">Kondektur</option>
+                                    <option value="KDR">Kondektur</option>
                                     <option value="LIA">Penyelia</option>
-                                    <option value="KUPT">Kepala UPT</option>
+                                    {{--<option value="KUPT">Kepala UPT</option>--}}
                                 </select>
                                 @error('jabatan')
                                 <div class="col-form-label">

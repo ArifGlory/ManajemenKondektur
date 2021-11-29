@@ -84,6 +84,46 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label class="col-12 col-form-label">Alasan Tukar Jadwal</label>
+                            <div class="col-sm-12">
+                                <select class="form-control select2" name="select_alasan" id="select_alasan" required>
+                                    <option value="sakit">Sakit</option>
+                                    <option value="lainnya">Lainnya (Deskripsikan Alasan)</option>
+                                </select>
+                                @error('select_alasan')
+                                <div class="col-form-label">
+                                    <strong>{{ $message }}</strong>
+                                </div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-12 col-form-label">Deskripsi Alasan</label>
+                            <div class="col-sm-12">
+                                {!! Form::textarea('deskripsi_alasan', null, ['id' => 'deskripsi_alasan', 'rows' => 4, 'style' => 'resize:none','class' => 'form-control', $errors->has('deskripsi_alasan') ? 'form-control-danger' : '',
+                                'placeholder' => 'Alasan penukaran jadwal','disabled'=> 'disabled']) !!}
+                                @error('deskripsi_alasan')
+                                <div class="col-form-label">
+                                    <strong>{{ $message }}</strong>
+                                </div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div id="container-file" class="form-group row">
+                            <label class="col-12 col-form-label">Surat Keterangan Sakit (Jika Alasan Sakit)</label>
+                            <div class="col-sm-12">
+                                <input accept="image/*" required id="file_pendukung" class="form-control @error('file_pendukung') is-invalid @enderror" type="file" name="file_pendukung">
+                                @error('file_pendukung')
+                                <div class="col-form-label">
+                                    <strong>{{ $message }}</strong>
+                                </div>
+                                @enderror
+                            </div>
+                        </div>
+
 
                         <div class="panel-content text-right py-2 rounded-bottom border-faded border-left-0 border-right-0 border-bottom-0 text-muted p-4">
                             <button onclick="saveData()" class="btn btn-info btn-sm waves-effect text-left"><i
@@ -159,5 +199,19 @@
             width: '100%',
             placeholder: "Pilih.."
         })
+        $('#select_alasan').on('change', function() {
+           var alasan = $(this).val();
+           console.log("alasan : "+alasan);
+           if (alasan == "lainnya"){
+               $('#deskripsi_alasan').attr('disabled', false).focus();
+
+               $('#container-file').addClass('d-none');
+           }else{
+               $('#deskripsi_alasan').val("");
+               $('#deskripsi_alasan').attr('disabled', true);
+
+               $('#container-file').removeClass('d-none');
+           }
+        });
     </script>
 @endpush
