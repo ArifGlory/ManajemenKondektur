@@ -113,6 +113,16 @@
                                     <label class="form-label">Jam Selesai kedinasan</label>
                                     <h5>{{$data->jam_selesai_tukar}}</h5>
                                 </div>
+                                <div class="form-group mt-3">
+                                    <label class="form-label">Alasan Tukar Jadwal</label>
+                                    <h4>{{$data->alasan}}</h4>
+                                </div>
+                                @if($data->alasan == "Sakit")
+                                    <div class="form-group mt-3">
+                                        <label class="form-label">File Surat Keterangan Sakit</label>
+                                        <h4> <a target="_blank" href="{{ asset('img/file_pendukung/'.$data->file_pendukung) }}">Lihat Surat Keterangan Sakit</a> </h4>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -122,6 +132,7 @@
     </div>
 
     <div class="row">
+        @if(Auth::user()->jenis_user == "admin")
         <div class="col-sm-12 col-md-12">
             <div class="panel">
                 <div class="panel-hdr">
@@ -134,7 +145,7 @@
                         <button class="btn btn-panel" data-action="panel-close" data-toggle="tooltip" data-offset="0,10" data-original-title="Close"></button>
                     </div>
                 </div>
-                @if(Auth::user()->jenis_user == "admin")
+
                     {!! Form::model($data,['route' => ['jadwal.update-tukar-jadwal', $data->id_tukar_jadwal], 'method' => 'PUT', 'id' => 'form-pegawai', 'files' => true]) !!}
                         <div class="panel-container show">
                             <div class="panel-content">
@@ -172,9 +183,10 @@
                             </div>
                         </div>
                     {!! Form::close() !!}
-                @endif
+
             </div>
         </div>
+        @endif
     </div>
 @endsection
 @push('scripts')

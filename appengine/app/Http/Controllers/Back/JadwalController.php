@@ -227,15 +227,39 @@ class JadwalController extends Controller
         $tanggal_jadwal_tukar = $request->input('tanggal_jadwal_tukar');
         $hari_tukar = Carbon::parse($tanggal_jadwal_tukar)->format('l');
         $hari_tukar = hariIndo($hari_tukar);
+        $select_alasan = $request->input('select_alasan');
 
-        $save = TukarJadwal::create([
-            'id_jadwal' => $request->input('id_jadwal'),
-            'id_pegawai' => $request->input('id_pegawai'),
-            'hari_tukar' => $hari_tukar,
-            'tanggal_jadwal_tukar' => $tanggal_jadwal_tukar,
-            'jam_mulai_tukar' => $request->input('jam_mulai_tukar'),
-            'jam_selesai_tukar' => $request->input('jam_selesai_tukar')
-        ]);
+        if ($select_alasan == "sakit"){
+            //simpan surat kleterangan sakit
+            if ($request->hasFile('file_pendukung')) {
+                $image = $request->file('file_pendukung');
+                $photo = round(microtime(true) * 1000) . '.' . $image->getClientOriginalExtension();
+                $image->move('img/file_pendukung/', $photo);
+            }
+
+            $save = TukarJadwal::create([
+                'id_jadwal' => $request->input('id_jadwal'),
+                'id_pegawai' => $request->input('id_pegawai'),
+                'hari_tukar' => $hari_tukar,
+                'tanggal_jadwal_tukar' => $tanggal_jadwal_tukar,
+                'jam_mulai_tukar' => $request->input('jam_mulai_tukar'),
+                'jam_selesai_tukar' => $request->input('jam_selesai_tukar'),
+                'alasan' => "Sakit",
+                'file_pendukung' => $photo
+            ]);
+        }else{
+            $deskripsi_alasan = $request->input('deskripsi_alasan');
+            $save = TukarJadwal::create([
+                'id_jadwal' => $request->input('id_jadwal'),
+                'id_pegawai' => $request->input('id_pegawai'),
+                'hari_tukar' => $hari_tukar,
+                'tanggal_jadwal_tukar' => $tanggal_jadwal_tukar,
+                'jam_mulai_tukar' => $request->input('jam_mulai_tukar'),
+                'jam_selesai_tukar' => $request->input('jam_selesai_tukar'),
+                'alasan' => $deskripsi_alasan
+            ]);
+        }
+
         if ($save) {
             return redirect(route('jadwal.tukar-jadwal'))
                 ->with('pesan_status',[
