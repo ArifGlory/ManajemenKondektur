@@ -10,6 +10,7 @@ use App\Imports\SantriDataImport;
 // use App\Models\PangkatGolongan;
 use App\Models\Jadwal;
 use App\Models\TukarJadwal;
+use App\Models\RiwayatJadwal;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -169,6 +170,10 @@ class JadwalController extends Controller
             ->editColumn('tanggal_jadwal',function($item){
                 $tanggal_jadwal = $item->tanggal_jadwal;
                 $tanggal_jadwal = Carbon::parse($tanggal_jadwal)->format('d M Y');
+
+                if ($item->status == "Diterima"){
+                    $tanggal_jadwal = $tanggal_jadwal." [Telah Diubah ke Tanggal Penukaran]";
+                }
 
                 return $tanggal_jadwal;
             })
@@ -361,13 +366,43 @@ class JadwalController extends Controller
             ->where('id_tukar_jadwal',$id_tukar_jadwal)
             ->first();
 
-        return view('back.jadwal.show_tukar_jadwal', compact('data'));
+        if ($data->status == "Diterima"){
+            $riwayat_jadwal = RiwayatJadwal::findOrFail($data->id_riwayat_jadwal);
+        }else{
+            $riwayat_jadwal = array();
+        }
+
+        return view('back.jadwal.show_tukar_jadwal', compact('data','riwayat_jadwal'));
     }
 
     public  function updateTukarJadwal(Request $request){
         $requestData = $request->all();
         $id = $requestData['id_tukar_jadwal'];
         $data = TukarJadwal::findOrFail($id);
+
+        $jadwal = Jadwal::findOrFail($data->id_jadwal);
+
+        if ($requestData['status'] == "Diterima"){
+
+            //simpan riwayat jadwal
+            $history_jadwal = RiwayatJadwal::create([
+                'id_pegawai' => $jadwal->id_pegawai,
+                'hari' => $jadwal->hari,
+                'tanggal_jadwal' => $jadwal->tanggal_jadwal,
+                'jam_mulai' => $jadwal->jam_mulai,
+                'jam_selesai' => $jadwal->jam_selesai
+            ]);
+            $requestData['id_riwayat_jadwal'] = $history_jadwal->id_riwayat_jadwal;
+
+            //update data jadwal tsb
+            $data_update_jadwal = array(
+                'hari'=>$data->hari_tukar,
+                'tanggal_jadwal'=>$data->tanggal_jadwal_tukar,
+                'jam_mulai'=>$data->jam_mulai_tukar,
+                'jam_selesai'=>$data->jam_selesai_tukar
+            );
+            $update_jadwal = $jadwal->update($data_update_jadwal);
+        }
 
         $update = $data->update($requestData);
         if ($update) {

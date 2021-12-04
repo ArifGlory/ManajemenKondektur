@@ -46,7 +46,7 @@
                                 <td width="2%">No</td>
                                 <td>Nama</td>
                                 <td>NIP</td>
-                                <td>Tanggal Awal</td>
+                                {{--<td>Tanggal Awal</td>--}}
                                 <td>Tanggal Tukar</td>
                                 <td>Status</td>
                                 <td width="20%">Action</td>
@@ -92,9 +92,9 @@
                 {
                     data: 'nip', name: 'nip', orderable: true,
                 },
-                {
+               /* {
                     data: 'tanggal_jadwal', name: 'tanggal_jadwal', orderable: true,
-                },
+                },*/
                 {
                     data: 'tanggal_jadwal_tukar', name: 'tanggal_jadwal_tukar', orderable: true,
                 },
@@ -108,7 +108,7 @@
             columnDefs: [
                 {
                     className: 'text-center',
-                    targets: [0, 1 ,5, 6]
+                    targets: [0, 1 ,4, 5]
                 }
             ],
         });

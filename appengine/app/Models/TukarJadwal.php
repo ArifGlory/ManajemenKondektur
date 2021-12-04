@@ -17,6 +17,7 @@ class TukarJadwal extends Model
         'id_tukar_jadwal',
         'id_jadwal',
         'id_pegawai',
+        'id_riwayat_jadwal',
         'hari_tukar',
         'tanggal_jadwal_tukar',
         'jam_mulai_tukar',

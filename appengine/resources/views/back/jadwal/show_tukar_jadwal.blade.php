@@ -64,31 +64,61 @@
                             </div>
                         </div>
                         <div class="row mt-5">
-                            <div class="col-md-6">
-                                <div class="form-group mt-3">
-                                    <h4>Jadwal Lama</h4>
-                                </div>
-                                <div class="form-group mt-2">
-                                    <label class="form-label">Hari</label>
-                                    <h5>{{$data->hari}}</h5>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Tanggal</label>
-                                    <h5>{{ \Carbon\Carbon::parse($data->tanggal_jadwal)->format('d M Y') }}</h5>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="form-label">Jam Mulai kedinasan</label>
-                                            <h5>{{$data->jam_mulai}}</h5>
+                            @if($data->status == "Diterima")
+                                <div class="col-md-6">
+                                    <div class="form-group mt-3">
+                                        <h4>Jadwal Awal</h4>
+                                    </div>
+                                    <div class="form-group mt-2">
+                                        <label class="form-label">Hari</label>
+                                        <h5>{{$riwayat_jadwal->hari}}</h5>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Tanggal</label>
+                                        <h5>{{ \Carbon\Carbon::parse($riwayat_jadwal->tanggal_jadwal)->format('d M Y') }}</h5>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="form-label">Jam Mulai kedinasan</label>
+                                                <h5>{{$riwayat_jadwal->jam_mulai}}</h5>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="form-group mt-3">
+                                        <label class="form-label">Jam Selesai kedinasan</label>
+                                        <h5>{{$riwayat_jadwal->jam_selesai}}</h5>
+                                    </div>
                                 </div>
-                                <div class="form-group mt-3">
-                                    <label class="form-label">Jam Selesai kedinasan</label>
-                                    <h5>{{$data->jam_selesai}}</h5>
+                            @else
+                                <div class="col-md-6">
+                                    <div class="form-group mt-3">
+                                        <h4>Jadwal Awal</h4>
+                                    </div>
+                                    <div class="form-group mt-2">
+                                        <label class="form-label">Hari</label>
+                                        <h5>{{$data->hari}}</h5>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Tanggal</label>
+                                        <h5>{{ \Carbon\Carbon::parse($data->tanggal_jadwal)->format('d M Y') }}</h5>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="form-label">Jam Mulai kedinasan</label>
+                                                <h5>{{$data->jam_mulai}}</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mt-3">
+                                        <label class="form-label">Jam Selesai kedinasan</label>
+                                        <h5>{{$data->jam_selesai}}</h5>
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
+
+
                             <div class="col-md-6">
                                 <div class="form-group mt-3">
                                     <h4>Pengajuan Jadwal Baru</h4>
