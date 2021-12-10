@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Ubah Pegawai')
+@section('title', 'Ubah Kereta')
 
 @push('css')
     <link rel="stylesheet" media="screen, print" href="{{ asset('back-end/css/formplugins/select2/select2.bundle.css') }}">
@@ -8,25 +8,25 @@
 @section('breadcrumb')
     <ol class="breadcrumb page-breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}"><strong>{{  getSettingData('web_name')->value ?? env('APP_NAME') }}</strong> WebApp</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('pegawai.index') }}">Pegawai</a></li>
-        <li class="breadcrumb-item active">Ubah Pegawai</li>
+        <li class="breadcrumb-item"><a href="{{ route('kereta.index') }}">Pegawai</a></li>
+        <li class="breadcrumb-item active">Ubah Kereta</li>
         <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
     </ol>
     <div class="subheader">
         <h1 class="subheader-title">
-            <i class='subheader-icon fal fa-user-circle'></i> Edit Pegawai & Kondektur
+            <i class='subheader-icon fal fa-user-circle'></i> Edit Kereta
             <small>
-                Silahkan ubah data pegawai
+                Silahkan ubah data kereta
             </small>
         </h1>
-        <div class="btn-group btn-group-sm text-center float-right" jabatan="group">
-            <a href="{{ route('pegawai.index') }}" class="btn btn-primary btn-mini waves-effect waves-light"><span class="fal fa-backward"></span> Kembali</a>
+        <div class="btn-group btn-group-sm text-center float-right">
+            <a href="{{ route('kereta.index') }}" class="btn btn-primary btn-mini waves-effect waves-light"><span class="fal fa-backward"></span> Kembali</a>
         </div>
     </div>
 @endsection
 
 @section('content')
-    {!! Form::model($data,['route' => ['pegawai.update', $data->id], 'method' => 'PUT', 'id' => 'form-pegawai', 'files' => true]) !!}
+    {!! Form::model($data,['route' => ['kereta.update', $data->id_kereta], 'method' => 'PUT', 'id' => 'form-pegawai', 'files' => true]) !!}
         <div class="row">
             <div class="col-sm-12 col-md-8">
                 <div class="card">
@@ -42,9 +42,9 @@
                         <div class="form-group row">
                             <label class="col-12 col-md-4 col-form-label">Nama Pegawai</label>
                             <div class="col-sm-12 col-md-8">
-                                {!! Form::text('name', null, ['class' => 'form-control', $errors->has('name') ? 'form-control-danger' : '', 'placeholder' => 'Nama Pegawai'
+                                {!! Form::text('nama_kereta', null, ['class' => 'form-control', $errors->has('nama_kereta') ? 'form-control-danger' : '', 'placeholder' => 'Nama Pegawai'
                                 , 'required' => 'required']) !!}
-                                @error('name')
+                                @error('nama_kereta')
                                 <div class="col-form-label">
                                     <strong>{{ $message }}</strong>
                                 </div>
@@ -55,8 +55,9 @@
                         <div class="form-group row">
                             <label class="col-12 col-md-4 col-form-label">Telepon</label>
                             <div class="col-sm-12 col-md-8">
-                                {!! Form::text('phone', null, ['class' => 'form-control', $errors->has('phone') ? 'form-control-danger' : '', 'placeholder' => 'Telepon']) !!}
-                                @error('phone')
+                                {!! Form::text('nomor_kereta', null, ['class' => 'form-control', $errors->has('nomor_kereta') ? 'form-control-danger' : '',
+ 'placeholder' => 'Telepon','required' => 'required']) !!}
+                                @error('nomor_kereta')
                                 <div class="col-form-label">
                                     <strong>{{ $message }}</strong>
                                 </div>
@@ -65,10 +66,11 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-12 col-md-4 col-form-label">NIP</label>
-                            <div class="col-sm-12 col-md-8">
-                                {!! Form::text('nip', null, ['class' => 'form-control', $errors->has('nip') ? 'form-control-danger' : '', 'placeholder' => 'Telepon']) !!}
-                                @error('nip')
+                            <label class="col-12 col-form-label">Deskripsi</label>
+                            <div class="col-sm-12">
+                                {!! Form::textarea('deskripsi_kereta', null, ['id' => 'deskripsi_kereta', 'rows' => 4, 'style' => 'resize:none','class' => 'form-control', $errors->has('deskripsi_kereta') ? 'form-control-danger' : '',
+                                'placeholder' => 'Deskripsi singkat tentang kereta','required' => 'required']) !!}
+                                @error('deskripsi_kereta')
                                 <div class="col-form-label">
                                     <strong>{{ $message }}</strong>
                                 </div>
@@ -76,79 +78,11 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label class="col-12 col-md-4 col-form-label">Pangkat</label>
-                            <div class="col-sm-12 col-md-8">
-                                {!! Form::text('pangkat', null, ['class' => 'form-control', $errors->has('pangkat') ? 'form-control-danger' : '', 'placeholder' => 'Telepon']) !!}
-                                @error('pangkat')
-                                <div class="col-form-label">
-                                    <strong>{{ $message }}</strong>
-                                </div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-12 col-md-4 col-form-label">Jabatan</label>
-                            <div class="col-sm-12 col-md-8">
-                                <select name="jabatan" class="form-control select2">
-                                    <option value="{{$data->jabatan}}">Terpilih - {{$nama_jabatan}}</option>
-                                    <option value="KDR">Kondektur</option>
-                                    <option value="LIA">Penyelia</option>
-                                    {{--<option value="KUPT">Kepala UPT</option>--}}
-                                </select>
-                                @error('jabatan')
-                                <div class="col-form-label">
-                                    <strong>{{ $message }}</strong>
-                                </div>
-                                @enderror
-                            </div>
-                        </div>
-
-
-
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-12 col-md-4">
-                <div class="card">
-                    <div class="card-header bg-dark text-white">
-                        <div class="row">
-                            <div class="col">
-                                <h5 class="text-white">Data Lainnya</h5>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="form-group row">
-                            <div class="form-group">
-                                <div class="align-content-center text-center" style="margin-left: 30px;margin-right: 30px;">
-                                    @if($data->foto)
-                                        <img id="previewFoto" src="{{ asset('img/pegawai/'.$data->foto) }}" height="250px" alt="">
-                                    @else
-                                        <img id="previewFoto" width="100%" height="250" src="{{asset('img/pegawai/padrao.png')}}">
-                                    @endif
-                                </div>
-                            </div>
-                            <label class="col-12 col-md-4 col-form-label">Foto Pegawai</label>
-                            <div class="col-sm-12 col-md-8">
-                                <input accept="image/*" required id="foto" class="form-control @error('foto') is-invalid @enderror" type="file" name="foto">
-                                @error('foto')
-                                <div class="col-form-label">
-                                    <strong>{{ $message }}</strong>
-                                </div>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-12 col-md-4 col-form-label">Email Pegawai</label>
-                            <div class="col-sm-12 col-md-8">
-                                {!! Form::text('email', null, ['class' => 'form-control', $errors->has('email') ? 'form-control-danger' : '', 'placeholder' => 'Email pegawai']) !!}
-                                @error('email')
-                                <div class="col-form-label">
-                                    <strong>{{ $message }}</strong>
-                                </div>
-                                @enderror
+                        <div class="text-left">
+                            <div class="panel-content text-right py-2 rounded-bottom border-faded border-left-0 border-right-0 border-bottom-0 text-muted p-4">
+                                <button onclick="saveData()" class="btn btn-info btn-sm waves-effect text-left"><i
+                                            class="fal fa-save"></i> Simpan Data
+                                </button>
                             </div>
                         </div>
 
@@ -156,13 +90,7 @@
                 </div>
             </div>
 
-            <div class="text-left">
-                <div class="panel-content text-right py-2 rounded-bottom border-faded border-left-0 border-right-0 border-bottom-0 text-muted p-4">
-                    <button onclick="saveData()" class="btn btn-info btn-sm waves-effect text-left"><i
-                                class="fal fa-save"></i> Simpan Data
-                    </button>
-                </div>
-            </div>
+
         </div>
     {!! Form::close() !!}
 @endsection

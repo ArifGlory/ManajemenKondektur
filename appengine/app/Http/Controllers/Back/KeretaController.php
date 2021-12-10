@@ -153,20 +153,11 @@ class KeretaController extends Controller
 
 
     public function edit($id){
-        $data = User::select('users.*')
-            ->where('users.id',$id)
+        $data = Kereta::select('*')
+            ->where('id_kereta',$id)
             ->first();
 
-        $jabatan = $data->jabatan;
-        if ($jabatan == "KDR"){
-            $nama_jabatan = "Kondektur";
-        }else if ($jabatan == "LIA"){
-            $nama_jabatan = "Penyelia";
-        }if ($jabatan == "KUPT"){
-            $nama_jabatan = "Kepala UPT";
-        }
-
-        return view('back.kereta.edit', compact('data','nama_jabatan'));
+        return view('back.kereta.edit', compact('data'));
     }
 
     public function destroy($id)
