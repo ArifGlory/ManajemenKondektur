@@ -144,8 +144,8 @@ class KeretaController extends Controller
     }
 
     public function show($id){
-        $data = User::select('users.*')
-            ->where('id',$id)
+        $data = Kereta::select('*')
+            ->where('id_kereta',$id)
             ->first();
 
         return view('back.kereta.show', compact('data'));
