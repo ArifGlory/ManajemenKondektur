@@ -55,7 +55,8 @@
                         <div class="form-group row">
                             <label class="col-12 col-md-4 col-form-label">Nomor Kereta</label>
                             <div class="col-sm-12 col-md-8">
-                                {!! Form::text('nomor_kereta', null, ['class' => 'form-control', $errors->has('nomor_kereta') ? 'form-control-danger' : '', 'placeholder' => 'Nomor Kereta']) !!}
+                                {!! Form::text('nomor_kereta', null, ['class' => 'form-control', $errors->has('nomor_kereta') ? 'form-control-danger' : '',
+ 'placeholder' => 'Nomor Kereta','required' => 'required']) !!}
                                 @error('nomor_kereta')
                                 <div class="col-form-label">
                                     <strong>{{ $message }}</strong>
@@ -68,7 +69,7 @@
                             <label class="col-12 col-form-label">Deskripsi</label>
                             <div class="col-sm-12">
                                 {!! Form::textarea('deskripsi_kereta', null, ['id' => 'deskripsi_kereta', 'rows' => 4, 'style' => 'resize:none','class' => 'form-control', $errors->has('deskripsi_kereta') ? 'form-control-danger' : '',
-                                'placeholder' => 'Deskripsi singkat tentang kereta']) !!}
+                                'placeholder' => 'Deskripsi singkat tentang kereta','required' => 'required']) !!}
                                 @error('deskripsi_kereta')
                                 <div class="col-form-label">
                                     <strong>{{ $message }}</strong>
@@ -79,7 +80,7 @@
 
                         <div class="text-left">
                             <div class="panel-content text-right py-2 rounded-bottom border-faded border-left-0 border-right-0 border-bottom-0 text-muted p-4">
-                                <button onclick="saveData()" class="btn btn-info btn-sm waves-effect text-left"><i
+                                <button type="submit" class="btn btn-info btn-sm waves-effect text-left"><i
                                             class="fal fa-save"></i> Simpan Data
                                 </button>
                             </div>

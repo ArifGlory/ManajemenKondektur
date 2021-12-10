@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
+use function GuzzleHttp\Promise\all;
 
 class KeretaController extends Controller
 {
@@ -52,9 +53,9 @@ class KeretaController extends Controller
                          * R = Restore = $restore
                          * M = Modal Dialog*/
                         $role = Auth::user()->jenis_user;
-                        $lihat = route('kereta.show', $item->id);
-                        $edit = route('kereta.edit', $item->id);
-                        $hapus = route('kereta.destroy', $item->id);
+                        $lihat = route('kereta.show', $item->id_kereta);
+                        $edit = route('kereta.edit', $item->id_kereta);
+                        $hapus = route('kereta.destroy', $item->id_kereta);
 
                         $button = 'LEHM';
                         return view('datatable._action_button', compact('item', 'button', 'lihat','edit', 'hapus'));
@@ -73,10 +74,11 @@ class KeretaController extends Controller
         return view('back.kereta.create');
     }
 
-    public function store(KeretaRequest $request)
+    public function store(Request $request)
     {
         //
-        $request->validated();
+        //dd($request->all());
+        //$request->validated();
         $role = Auth::user()->jenis_user;
 
         $save = Kereta::create([
