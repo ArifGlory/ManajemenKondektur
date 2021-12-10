@@ -64,6 +64,14 @@ Route::group([
 Route::resource('jadwal', 'Back\JadwalController')->middleware('auth');
 
 
-
-
+Route::get('/kereta', 'Back\KeretaController@index')->middleware('auth')->name('kereta');
+Route::group([
+    'prefix' => 'kereta',
+    'middleware' => 'auth'
+], function () {
+    Route::get('data', [\App\Http\Controllers\Back\KeretaController::class, 'data'])->name('kereta.data');
+    Route::get('trash', [\App\Http\Controllers\Back\KeretaController::class, 'trash'])->name('kereta.trash');
+    Route::post('restore/{kereta}', [\App\Http\Controllers\Back\KeretaController::class, 'restore'])->name('kereta.restore');
+});
+Route::resource('kereta', 'Back\KeretaController')->middleware('auth');
 

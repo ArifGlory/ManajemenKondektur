@@ -13,6 +13,12 @@
                 <span class="nav-link-text" data-i18n="nav.pegawai">Pegawai & Kondektur</span>
             </a>
         </li>
+        <li class="{{ Nav::isRoute('kereta', 'active') }}">
+            <a href="{{ url('/kereta') }}" title="Kereta" data-filter-tags="kereta">
+                <i class="fal fa-train"></i>
+                <span class="nav-link-text" data-i18n="nav.kereta">Kereta</span>
+            </a>
+        </li>
         <li class="{{ Nav::isResource('setting', NULL, 'active') }}">
             <a href="{{ route('setting.index') }}" title="Setting" data-filter-tags="setting">
                 <i class="fal fa-cog"></i>
