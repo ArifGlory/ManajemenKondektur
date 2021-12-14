@@ -47,6 +47,25 @@
                         </div>
 
                         <div class="form-group row">
+                            <label class="col-12 col-form-label">Kereta</label>
+                            <div class="col-sm-12">
+                                <select class="form-control select2" name="id_kereta" required>
+                                    @if($kereta_selected != null)
+                                        <option value="{{$kereta_selected->id_kereta}}"> Terpilih -  {{$kereta_selected->nama_kereta}} </option>
+                                    @endif
+                                    @foreach($kereta as $val)
+                                        <option value="{{$val->id_kereta}}"> {{$val->nama_kereta}} - No. {{$val->nomor_kereta}} </option>
+                                    @endforeach
+                                </select>
+                                @error('id_kereta')
+                                <div class="col-form-label">
+                                    <strong>{{ $message }}</strong>
+                                </div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <label class="col-12 col-md-4 col-form-label">Tanggal</label>
                             <div class="col-sm-12 col-md-8">
                                 {!! Form::date('tanggal_jadwal', null, ['class' => 'form-control', $errors->has('tanggal_jadwal') ? 'form-control-danger' : '', 'placeholder' => 'Tanggal jadwal']) !!}

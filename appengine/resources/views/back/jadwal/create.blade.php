@@ -40,6 +40,22 @@
                     </div>
                     <div class="card-body">
                         <div class="form-group row">
+                            <label class="col-12 col-form-label">Kereta</label>
+                            <div class="col-sm-12">
+                                <select class="form-control select2" name="id_kereta" required>
+                                    @foreach($kereta as $val)
+                                        <option value="{{$val->id_kereta}}"> {{$val->nama_kereta}} - No. {{$val->nomor_kereta}} </option>
+                                    @endforeach
+                                </select>
+                                @error('id_kereta')
+                                <div class="col-form-label">
+                                    <strong>{{ $message }}</strong>
+                                </div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <label class="col-12 col-form-label">Nama Pegawai</label>
                             <div class="col-sm-12">
                                 <select class="form-control select2" name="id_pegawai" id="selectSantri" required>

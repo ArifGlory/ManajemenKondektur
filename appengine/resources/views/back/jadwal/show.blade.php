@@ -48,6 +48,10 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group mt-3">
+                                    <label class="form-label">Kereta</label>
+                                    <h5>{{$data->nama_kereta}} - {{$data->nomor_kereta}}</h5>
+                                </div>
+                                <div class="form-group">
                                     <label class="form-label">Hari</label>
                                     <h5>{{$data->hari}}</h5>
                                 </div>

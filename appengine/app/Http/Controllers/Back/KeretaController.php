@@ -108,21 +108,8 @@ class KeretaController extends Controller
 
         $requestData = $request->all();
 
-        $data = User::findOrFail($id);
+        $data = Kereta::findOrFail($id);
 
-        if ($request->hasFile('foto')) {
-            //hapus foto lama
-            if ($data->foto != "padrao.png"){
-                if (file_exists('img/kereta/' . $data->foto)) {
-                    unlink('img/kereta/' . $data->foto);
-                }
-            }
-
-            $image = $request->file('foto');
-            $photo = round(microtime(true) * 1000) . '.' . $image->getClientOriginalExtension();
-            $image->move('img/kereta/', $photo);
-            $requestData['foto'] = $photo;
-        }
 
         $update = $data->update($requestData);
         if ($update) {
@@ -131,7 +118,7 @@ class KeretaController extends Controller
                 ->with('pesan_status', [
                     'tipe' => 'info',
                     'desc' => 'Data Berhasil diupdate',
-                    'judul' => 'Data Pegawai'
+                    'judul' => 'Data Kereta'
                 ]);
         } else {
             Redirect::back()->with('pesan_status', [
@@ -164,7 +151,7 @@ class KeretaController extends Controller
     {
         //
 
-        $info = User::withTrashed()->find($id);
+        $info = Kereta::withTrashed()->find($id);
         if ($info->trashed()) {
             $delete = $info->forceDelete();
         } else {

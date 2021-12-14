@@ -9,6 +9,7 @@ use App\Http\Requests\TukarJadwalRequest;
 use App\Imports\SantriDataImport;
 // use App\Models\PangkatGolongan;
 use App\Models\Jadwal;
+use App\Models\Kereta;
 use App\Models\TukarJadwal;
 use App\Models\RiwayatJadwal;
 use App\User;
@@ -286,8 +287,9 @@ class JadwalController extends Controller
         //
         $pegawai = User::where('jenis_user',"user")
             ->get();
+        $kereta = Kereta::all();
 
-        return view('back.jadwal.create',compact('pegawai'));
+        return view('back.jadwal.create',compact('pegawai','kereta'));
     }
 
     public function store(JadwalRequest $request)
@@ -301,6 +303,7 @@ class JadwalController extends Controller
 
         $save = Jadwal::create([
             'id_pegawai' => $request->input('id_pegawai'),
+            'id_kereta' => $request->input('id_kereta'),
             'hari' => $hari,
             'tanggal_jadwal' => $tanggal_jadwal,
             'jam_mulai' => $request->input('jam_mulai'),
@@ -349,8 +352,10 @@ class JadwalController extends Controller
     }
 
     public function show($id){
-        $data = Jadwal::select('users.name','users.nip','users.id as id_user','jadwal.*')
+        $data = Jadwal::select('users.name','users.nip','users.id as id_user','jadwal.*',
+        'kereta.nama_kereta','kereta.nomor_kereta')
             ->join('users','users.id','=','jadwal.id_pegawai')
+            ->join('kereta','kereta.id_kereta','=','jadwal.id_kereta','left')
             ->where('id_jadwal',$id)
             ->first();
 
@@ -428,8 +433,12 @@ class JadwalController extends Controller
             ->join('users','users.id','=','jadwal.id_pegawai')
             ->where('id_jadwal',$id)
             ->first();
+        $kereta_selected = Kereta::where('id_kereta',$data->id_kereta)
+            ->first();
 
-        return view('back.jadwal.edit', compact('data'));
+        $kereta = Kereta::all();
+
+        return view('back.jadwal.edit', compact('data','kereta','kereta_selected'));
     }
 
     public function destroy($id)
