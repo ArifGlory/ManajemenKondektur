@@ -301,28 +301,41 @@ class JadwalController extends Controller
         $hari = Carbon::parse($tanggal_jadwal)->format('l');
         $hari = hariIndo($hari);
 
-        $save = Jadwal::create([
-            'id_pegawai' => $request->input('id_pegawai'),
-            'id_kereta' => $request->input('id_kereta'),
-            'hari' => $hari,
-            'tanggal_jadwal' => $tanggal_jadwal,
-            'jam_mulai' => $request->input('jam_mulai'),
-            'jam_selesai' => $request->input('jam_selesai')
-        ]);
-        if ($save) {
-            return redirect(route('jadwal.index'))
-                ->with('pesan_status',[
-                    'tipe' => 'info',
-                    'desc' => 'Berhasil menambahkan Jadwal',
-                    'judul' => 'Data Jadwal'
-                ]);
-        } else {
-            Redirect::back()->with('pesan_status', [
-                'tipe' => 'danger',
-                'desc' => 'Server Error',
-                'judul' => 'Terdapat kesalahan pada server.'
+        $cek_kesamaan_jadwal = Jadwal::select('users.name','users.nip')
+            ->join('users','users.id','=','jadwal.id_pegawai')
+            ->where('tanggal_jadwal',$tanggal_jadwal)
+            ->where('jam_mulai',$request->input('jam_mulai'))
+            ->where('jam_selesai',$request->input('jam_selesai'))
+            ->first();
+
+        if ($cek_kesamaan_jadwal){
+            return Redirect::back()->withErrors(['msg' => 'Jadwal telah diisi oleh '.$cek_kesamaan_jadwal->name. " - ".$cek_kesamaan_jadwal->nip]);
+        }else{
+            $save = Jadwal::create([
+                'id_pegawai' => $request->input('id_pegawai'),
+                'id_kereta' => $request->input('id_kereta'),
+                'hari' => $hari,
+                'tanggal_jadwal' => $tanggal_jadwal,
+                'jam_mulai' => $request->input('jam_mulai'),
+                'jam_selesai' => $request->input('jam_selesai')
             ]);
+            if ($save) {
+                return redirect(route('jadwal.index'))
+                    ->with('pesan_status',[
+                        'tipe' => 'info',
+                        'desc' => 'Berhasil menambahkan Jadwal',
+                        'judul' => 'Data Jadwal'
+                    ]);
+            } else {
+                Redirect::back()->with('pesan_status', [
+                    'tipe' => 'danger',
+                    'desc' => 'Server Error',
+                    'judul' => 'Terdapat kesalahan pada server.'
+                ]);
+            }
         }
+
+
     }
 
     public function update(Request $request, $id)

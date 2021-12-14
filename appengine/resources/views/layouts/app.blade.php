@@ -360,6 +360,27 @@
         }
         toastr['{{session('pesan_status.tipe')}}']('{{session('pesan_status.desc')}}', '{{session('pesan_status.judul')}}');
     @endif
+
+    @if($errors->any())
+        toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": true,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": true,
+        "onclick": null,
+        "showDuration": 300,
+        "hideDuration": 100,
+        "timeOut": 5000,
+        "extendedTimeOut": 1000,
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+        toastr['error']('Silahkan pilih waktu yang lain', '{{$errors->first()}}');
+    @endif
     });
 </script>
 <script src="{{ asset('js/helper.js') }}"></script>
