@@ -480,8 +480,9 @@ class JadwalController extends Controller
         $current_year = date('Y');
         $bulan_aktif = bulanIndo($current_month);
 
-        $data = Jadwal::select('users.name','users.nip','jadwal.*')
+        $data = Jadwal::select('users.name','users.nip','users.jabatan','jadwal.*','kereta.nomor_kereta','kereta.nama_kereta')
             ->join('users','users.id','=','jadwal.id_pegawai')
+            ->join('kereta','kereta.id_kereta','=','jadwal.id_kereta','left')
             ->whereYear('jadwal.tanggal_jadwal', '=', $current_year)
             ->whereMonth('jadwal.tanggal_jadwal', '=', $current_month)
             ->orderBy('jadwal.tanggal_jadwal', 'ASC')

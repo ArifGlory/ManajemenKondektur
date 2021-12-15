@@ -137,8 +137,9 @@
                         <tr>
                             <td>No.</td>
                             <td>Hari</td>
+                            <td>Kereta</td>
                             <td>Tanggal</td>
-                            <td>Nama</td>
+                            <td>Petugas</td>
                             <td>Waktu</td>
                         </tr>
                     </thead>
@@ -151,18 +152,19 @@
 
                             @endphp
                             <tr>
-                                <td style="vertical-align: middle;">{{$no}}</td>
+                                <td style="vertical-align: middle;">{{$no++}}</td>
                                 <td style="vertical-align: middle;">{{$val->hari}}</td>
+                                <td style="vertical-align: middle;">{{$val->nama_kereta}} - {{$val->nomor_kereta}} </td>
                                 <td style="vertical-align: middle;">{{\Carbon\Carbon::parse($val->tanggal_jadwal)->format('d M Y')}}</td>
                                 <?php
-                                $jadwal = App\Models\Jadwal::select('users.name','users.nip','jadwal.*')
+                                $jadwal = App\Models\Jadwal::select('users.name','users.nip','users.jabatan','jadwal.*')
                                     ->join('users','users.id','=','jadwal.id_pegawai')
                                     ->where('tanggal_jadwal',$val->tanggal_jadwal)
                                     ->get();
                                 ?>
                                 <td style="text-align: left;">
                                     @foreach($jadwal as $value)
-                                        -  {{$value->name}}
+                                        -  {{$value->name}} ({{$value->nip }}) [{{$value->jabatan }}]
                                         <br>
                                     @endforeach
                                 </td>
