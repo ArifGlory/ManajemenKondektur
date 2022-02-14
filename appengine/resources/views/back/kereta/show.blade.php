@@ -55,6 +55,10 @@
                                     <label class="form-label">Nomor Kereta</label>
                                     <h5>{{$data->nomor_kereta}}</h5>
                                 </div>
+                                <div class="form-group mt-3">
+                                    <label class="form-label">Kelas Kereta</label>
+                                    <h5>{{$data->kelas_kereta}}</h5>
+                                </div>
                                 <div class="form-group">
                                     <label class="form-label">Relasi Kereta</label>
                                     <h5>{{$data->deskripsi_kereta}}</h5>

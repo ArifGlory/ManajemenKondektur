@@ -56,8 +56,21 @@
                             <label class="col-12 col-md-4 col-form-label">Nomor Kereta</label>
                             <div class="col-sm-12 col-md-8">
                                 {!! Form::text('nomor_kereta', null, ['class' => 'form-control', $errors->has('nomor_kereta') ? 'form-control-danger' : '',
- 'placeholder' => 'Telepon','required' => 'required']) !!}
+ 'placeholder' => 'nomor kereta','required' => 'required']) !!}
                                 @error('nomor_kereta')
+                                <div class="col-form-label">
+                                    <strong>{{ $message }}</strong>
+                                </div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-12 col-md-4 col-form-label">Kelas Kereta</label>
+                            <div class="col-sm-12 col-md-8">
+                                {!! Form::text('kelas_kereta', null, ['class' => 'form-control', $errors->has('kelas_kereta') ? 'form-control-danger' : '',
+ 'placeholder' => 'Kelas kereta','required' => 'required']) !!}
+                                @error('kelas_kereta')
                                 <div class="col-form-label">
                                     <strong>{{ $message }}</strong>
                                 </div>

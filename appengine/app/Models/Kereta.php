@@ -16,6 +16,7 @@ class Kereta extends Model
      */
     protected $fillable = [
         'id_kereta',
+        'kelas_kereta',
         'nomor_kereta',
         'nama_kereta',
         'deskripsi_kereta',

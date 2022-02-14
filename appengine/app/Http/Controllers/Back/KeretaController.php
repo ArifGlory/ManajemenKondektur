@@ -84,6 +84,7 @@ class KeretaController extends Controller
         $save = Kereta::create([
             'nomor_kereta' => $request->input('nomor_kereta'),
             'nama_kereta' => $request->input('nama_kereta'),
+            'kelas_kereta' => $request->input('kelas_kereta'),
             'deskripsi_kereta' => $request->input('deskripsi_kereta')
         ]);
         if ($save) {

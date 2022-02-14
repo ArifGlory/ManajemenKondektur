@@ -66,6 +66,19 @@
                         </div>
 
                         <div class="form-group row">
+                            <label class="col-12 col-md-4 col-form-label">Kelas Kereta</label>
+                            <div class="col-sm-12 col-md-8">
+                                {!! Form::text('kelas_kereta', null, ['class' => 'form-control', $errors->has('kelas_kereta') ? 'form-control-danger' : '',
+ 'placeholder' => 'kelas Kereta','required' => 'required']) !!}
+                                @error('kelas_kereta')
+                                <div class="col-form-label">
+                                    <strong>{{ $message }}</strong>
+                                </div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <label class="col-12 col-form-label">Relasi Kereta</label>
                             <div class="col-sm-12">
                                 {!! Form::textarea('deskripsi_kereta', null, ['id' => 'deskripsi_kereta', 'rows' => 4, 'style' => 'resize:none','class' => 'form-control', $errors->has('deskripsi_kereta') ? 'form-control-danger' : '',
