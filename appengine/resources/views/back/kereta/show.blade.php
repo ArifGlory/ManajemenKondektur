@@ -56,7 +56,7 @@
                                     <h5>{{$data->nomor_kereta}}</h5>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">Deskripsi</label>
+                                    <label class="form-label">Relasi Kereta</label>
                                     <h5>{{$data->deskripsi_kereta}}</h5>
                                 </div>
                         </div>

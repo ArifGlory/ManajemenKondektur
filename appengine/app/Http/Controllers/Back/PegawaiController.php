@@ -37,8 +37,9 @@ class PegawaiController extends Controller
     {
                 $role = Auth::user()->jenis_user;
                 $data = User::select('users.*')
-                    ->where('jenis_user',"user")
-                    ->orderBy('users.id', 'DESC')
+                    //->where('jenis_user',"user")
+                    ->orderBy('users.level_jabatan', 'ASC')
+                    ->orderBy('users.nip', 'ASC')
                     ->get();
 
 
@@ -48,9 +49,9 @@ class PegawaiController extends Controller
                             $nama_jabatan = "Kondektur";
                         }else if ($item->jabatan == "LIA"){
                             $nama_jabatan = "Penyelia";
-                        }/*if ($item->jabatan == "KUPT"){
+                        }if ($item->jabatan == "KUPT"){
                             $nama_jabatan = "Kepala UPT";
-                        }*/
+                        }
 
                         return $nama_jabatan;
                     })
@@ -62,29 +63,31 @@ class PegawaiController extends Controller
                          * H = Hapus => $hapus
                          * R = Restore = $restore
                          * M = Modal Dialog*/
-                        $role = Auth::user()->jenis_user;
-                        if ($role != "admin"){
-                            $lihat = route('pegawai.show', $item->id);
-                            $edit = route('pegawai.edit', $item->id);
-                            $hapus = route('pegawai.destroy', $item->id);
-                            if ($item->status_aktivasi == 0){
-                                $button = 'LEHARM';
-                                return view('datatable._action_button', compact('item', 'button', 'lihat','edit', 'hapus'));
-                            }else{
-                                $button = 'LEHRM';
-                                return view('datatable._action_button', compact('item', 'button', 'lihat','edit', 'hapus'));
-                            }
+                        if ($item->jenis_user != "admin"){
+                            $role = Auth::user()->jenis_user;
+                            if ($role != "admin"){
+                                $lihat = route('pegawai.show', $item->id);
+                                $edit = route('pegawai.edit', $item->id);
+                                $hapus = route('pegawai.destroy', $item->id);
+                                if ($item->status_aktivasi == 0){
+                                    $button = 'LEHARM';
+                                    return view('datatable._action_button', compact('item', 'button', 'lihat','edit', 'hapus'));
+                                }else{
+                                    $button = 'LEHRM';
+                                    return view('datatable._action_button', compact('item', 'button', 'lihat','edit', 'hapus'));
+                                }
 
-                        }else{
-                            $lihat = route('pegawai.show', $item->id);
-                            $edit = route('pegawai.edit', $item->id);
-                            $hapus = route('pegawai.destroy', $item->id);
-                            if ($item->status_aktivasi == 0){
-                                $button = 'LEHAM';
-                                return view('datatable._action_button', compact('item', 'button', 'lihat','edit', 'hapus'));
                             }else{
-                                $button = 'LEHM';
-                                return view('datatable._action_button', compact('item', 'button', 'lihat','edit', 'hapus'));
+                                $lihat = route('pegawai.show', $item->id);
+                                $edit = route('pegawai.edit', $item->id);
+                                $hapus = route('pegawai.destroy', $item->id);
+                                if ($item->status_aktivasi == 0){
+                                    $button = 'LEHAM';
+                                    return view('datatable._action_button', compact('item', 'button', 'lihat','edit', 'hapus'));
+                                }else{
+                                    $button = 'LEHM';
+                                    return view('datatable._action_button', compact('item', 'button', 'lihat','edit', 'hapus'));
+                                }
                             }
                         }
 
@@ -150,12 +153,19 @@ class PegawaiController extends Controller
             $image->move('img/pegawai/', $photo);
         }
 
+        $level_jabatan = "";
+        if ($request->input('jabatan') == "LIA"){
+            $level_jabatan = 2;
+        }else if ($request->input('jabatan') == "KDR"){
+            $level_jabatan = 3;
+        }
         $save = User::create([
             'name' => $request->input('name'),
             'phone' => $request->input('phone'),
             'nip' => $request->input('nip'),
             'pangkat' => $request->input('pangkat'),
             'jabatan' => $request->input('jabatan'),
+            'level_jabatan' => $level_jabatan,
             'email' => $request->input('email'),
             'password' => $request->input('password'),
             'foto' => $photo

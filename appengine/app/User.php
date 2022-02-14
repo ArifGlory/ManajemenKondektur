@@ -23,6 +23,7 @@ class User extends Authenticatable
         'name', 'email', 'password',
         'foto','phone','token',
         'nip','pangkat','jabatan',
+        'level_jabatan',
         'jenis_user','created_at',
         'updated_at','deleted_at'
     ];

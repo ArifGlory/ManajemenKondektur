@@ -25,19 +25,20 @@
 @endsection
 
 @section('content')
-    {!! Form::model($data,['route' => ['pegawai.update', $data->id], 'method' => 'PUT', 'id' => 'form-pegawai', 'files' => true]) !!}
+    {!! Form::model($data,['route' => ['update-profile'], 'method' => 'POST', 'id' => 'form-pegawai', 'files' => true]) !!}
         <div class="row">
             <div class="col-sm-12 col-md-8">
                 <div class="card">
                     <div class="card-header bg-dark text-white">
                         <div class="row">
                             <div class="col">
-                                <h5 class="text-white">Data Pegawai</h5>
-                                <span>Silahkan mengisi data Pegawai yang akan digunakan dalam fungsi aplikasi ini.</span>
+                                <h5 class="text-white">Data Profil</h5>
+                                <span>Silahkan ubah data profil anda</span>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
+                        <input type="hidden" name="id_user" value="{{$data->id}}">
                         <div class="form-group row">
                             <label class="col-12 col-md-4 col-form-label">Nama Pegawai</label>
                             <div class="col-sm-12 col-md-8">
@@ -56,47 +57,6 @@
                             <div class="col-sm-12 col-md-8">
                                 {!! Form::text('phone', null, ['class' => 'form-control', $errors->has('phone') ? 'form-control-danger' : '', 'placeholder' => 'Telepon']) !!}
                                 @error('phone')
-                                <div class="col-form-label">
-                                    <strong>{{ $message }}</strong>
-                                </div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-12 col-md-4 col-form-label">NIP</label>
-                            <div class="col-sm-12 col-md-8">
-                                {!! Form::text('nip', null, ['class' => 'form-control', $errors->has('nip') ? 'form-control-danger' : '', 'placeholder' => 'Telepon']) !!}
-                                @error('nip')
-                                <div class="col-form-label">
-                                    <strong>{{ $message }}</strong>
-                                </div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-12 col-md-4 col-form-label">Pangkat</label>
-                            <div class="col-sm-12 col-md-8">
-                                {!! Form::text('pangkat', null, ['class' => 'form-control', $errors->has('pangkat') ? 'form-control-danger' : '', 'placeholder' => 'Telepon']) !!}
-                                @error('pangkat')
-                                <div class="col-form-label">
-                                    <strong>{{ $message }}</strong>
-                                </div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-12 col-md-4 col-form-label">Jabatan</label>
-                            <div class="col-sm-12 col-md-8">
-                                <select name="jabatan" class="form-control select2">
-                                    <option value="{{$data->jabatan}}">Terpilih - {{$nama_jabatan}}</option>
-                                    <option value="KDR">Kondektur</option>
-                                    <option value="LIA">Penyelia</option>
-                                    {{--<option value="KUPT">Kepala UPT</option>--}}
-                                </select>
-                                @error('jabatan')
                                 <div class="col-form-label">
                                     <strong>{{ $message }}</strong>
                                 </div>
@@ -151,17 +111,18 @@
                             </div>
                         </div>
 
+                        <div class="text-right">
+                            <div class="panel-content text-right py-2 rounded-bottom border-faded border-left-0 border-right-0 border-bottom-0 text-muted p-4">
+                                <button onclick="saveData()" class="btn btn-info btn-sm waves-effect text-left"><i
+                                            class="fal fa-save"></i> Simpan Data
+                                </button>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
 
-            <div class="text-left">
-                <div class="panel-content text-right py-2 rounded-bottom border-faded border-left-0 border-right-0 border-bottom-0 text-muted p-4">
-                    <button onclick="saveData()" class="btn btn-info btn-sm waves-effect text-left"><i
-                                class="fal fa-save"></i> Simpan Data
-                    </button>
-                </div>
-            </div>
         </div>
     {!! Form::close() !!}
 @endsection

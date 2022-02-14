@@ -66,7 +66,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-12 col-form-label">Deskripsi</label>
+                            <label class="col-12 col-form-label">Relasi Kereta</label>
                             <div class="col-sm-12">
                                 {!! Form::textarea('deskripsi_kereta', null, ['id' => 'deskripsi_kereta', 'rows' => 4, 'style' => 'resize:none','class' => 'form-control', $errors->has('deskripsi_kereta') ? 'form-control-danger' : '',
                                 'placeholder' => 'Deskripsi singkat tentang kereta','required' => 'required']) !!}
