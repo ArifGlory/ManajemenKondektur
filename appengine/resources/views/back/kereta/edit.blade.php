@@ -40,7 +40,7 @@
                     </div>
                     <div class="card-body">
                         <div class="form-group row">
-                            <label class="col-12 col-md-4 col-form-label">Nama Pegawai</label>
+                            <label class="col-12 col-md-4 col-form-label">Nama Kereta</label>
                             <div class="col-sm-12 col-md-8">
                                 {!! Form::text('nama_kereta', null, ['class' => 'form-control', $errors->has('nama_kereta') ? 'form-control-danger' : '', 'placeholder' => 'Nama Pegawai'
                                 , 'required' => 'required']) !!}
@@ -53,7 +53,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-12 col-md-4 col-form-label">Telepon</label>
+                            <label class="col-12 col-md-4 col-form-label">Nomor Kereta</label>
                             <div class="col-sm-12 col-md-8">
                                 {!! Form::text('nomor_kereta', null, ['class' => 'form-control', $errors->has('nomor_kereta') ? 'form-control-danger' : '',
  'placeholder' => 'Telepon','required' => 'required']) !!}

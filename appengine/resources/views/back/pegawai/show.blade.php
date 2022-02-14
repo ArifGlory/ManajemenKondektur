@@ -85,7 +85,7 @@
             <div class="panel">
                 <div class="panel-hdr">
                     <h2>
-                        <strong id="title-table">santri</strong> <span class="fw-300"><i></i></span>
+                        <strong id="title-table">pegawai</strong> <span class="fw-300"><i></i></span>
                     </h2>
                     <div class="panel-toolbar">
                         <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>

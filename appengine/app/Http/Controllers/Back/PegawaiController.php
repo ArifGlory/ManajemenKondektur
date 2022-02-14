@@ -248,11 +248,12 @@ class PegawaiController extends Controller
         //
 
         $info = User::withTrashed()->find($id);
-        if ($info->trashed()) {
+        $delete = $info->forceDelete();
+        /*if ($info->trashed()) {
             $delete = $info->forceDelete();
         } else {
             $delete = $info->destroy($id);
-        }
+        }*/
 
         $response = [];
         if($delete) {

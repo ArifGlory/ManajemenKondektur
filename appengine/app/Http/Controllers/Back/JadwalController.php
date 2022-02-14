@@ -43,8 +43,9 @@ class JadwalController extends Controller
     public function data(Request $request)
     {
                 $role = Auth::user()->jenis_user;
-                $data = Jadwal::select('users.name','users.nip','jadwal.*')
+                $data = Jadwal::select('users.name','users.nip','jadwal.*','kereta.nomor_kereta')
                     ->join('users','users.id','=','jadwal.id_pegawai')
+                    ->join('kereta','kereta.id_kereta','=','jadwal.id_kereta')
                     ->orderBy('jadwal.tanggal_jadwal', 'ASC')
                     ->get();
                 return Datatables::of($data)
@@ -91,8 +92,9 @@ class JadwalController extends Controller
     public function dataCariJadwal(Request $request)
     {
         $role = Auth::user()->jenis_user;
-        $data = Jadwal::select('users.name','users.nip','users.id as id_user','jadwal.*')
+        $data = Jadwal::select('users.name','users.nip','users.id as id_user','jadwal.*','kereta.nomor_kereta')
             ->join('users','users.id','=','jadwal.id_pegawai')
+            ->join('kereta','kereta.id_kereta','=','jadwal.id_kereta')
             ->orderBy('jadwal.created_at', 'DESC')
             ->get();
         return Datatables::of($data)

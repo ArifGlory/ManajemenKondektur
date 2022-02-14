@@ -147,13 +147,24 @@
                         <div class="form-group row">
                             <label class="col-12 col-md-4 col-form-label">Password</label>
                             <div class="col-sm-12 col-md-8">
-                                <input type="password" name="password" class="form-control" required placeholder="password pengguna">
+                                <div class="input-group input-group-sm bg-white shadow-inset-2">
+                                    <div style="width: 100%;" class="input-group-append" id="show_hide_password">
+                                        <input required name="password" type="password" class="form-control" placeholder="masukkan password ">
+                                        <button class="btn btn-default waves-effect waves-themed" type="button">
+                                            <i class="fal fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
                                 @error('password')
                                 <div class="col-form-label">
                                     <strong>{{ $message }}</strong>
                                 </div>
                                 @enderror
                             </div>
+                        </div>
+
+                        <div class="form-group row">
+
                         </div>
 
                     </div>
@@ -197,5 +208,18 @@
             width: '100%',
             placeholder: "Pilih.."
         })
+
+        $("#show_hide_password button").on('click', function(event) {
+            event.preventDefault();
+            if($('#show_hide_password input').attr("type") == "text"){
+                $('#show_hide_password input').attr('type', 'password');
+                $('#show_hide_password i').addClass( "fa-eye-slash" );
+                $('#show_hide_password i').removeClass( "fa-eye" );
+            }else if($('#show_hide_password input').attr("type") == "password"){
+                $('#show_hide_password input').attr('type', 'text');
+                $('#show_hide_password i').removeClass( "fa-eye-slash" );
+                $('#show_hide_password i').addClass( "fa-eye" );
+            }
+        });
     </script>
 @endpush

@@ -46,6 +46,7 @@
                             <thead>
                             <tr>
                                 <td width="2%">No</td>
+                                <td>No. Kereta</td>
                                 <td>Nama</td>
                                 <td>NIP</td>
                                 <td>Hari</td>
@@ -87,6 +88,9 @@
             columns: [
                 {
                     data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: true, searchable: false
+                },
+                {
+                    data: 'nomor_kereta', name: 'nomor_kereta', orderable: true,
                 },
                 {
                     data: 'name', name: 'name', orderable: true,
