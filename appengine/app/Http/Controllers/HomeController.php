@@ -70,6 +70,10 @@ class HomeController extends Controller
 
     }
 
+    public function editProfile(Request $request){
+        dd("yahaha");
+    }
+
     public function cariJadwal(Request $request){
         return view('back.jadwal.index_pegawai');
     }

@@ -18,6 +18,7 @@ Auth::routes([
 //back-end
 Route::get('/', 'HomeController@dashboard')->middleware('auth')->name('dashboard');
 Route::get('/dashboard', 'HomeController@dashboard')->middleware('auth')->name('dashboard');
+Route::get('/edit-profile', 'HomeController@editProfile')->middleware('auth')->name('edit-profile');
 Route::get('/cari-jadwal', 'HomeController@cariJadwal')->middleware('auth')->name('cari-jadwal');
 
 

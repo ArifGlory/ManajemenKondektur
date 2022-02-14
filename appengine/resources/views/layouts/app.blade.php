@@ -150,7 +150,7 @@
             <!-- BEGIN Page Footer -->
             <footer class="page-footer" r7ole="contentinfo">
                 <div class="d-flex align-items-center flex-1 text-muted">
-                    <span class="hidden-md-down fw-700">2021 © Manajemen Kondektur</span>
+                    <span class="hidden-md-down fw-700">2022 © Manajemen Kondektur</span>
                 </div>
                 {{--<div>
                     <ul class="list-table m-0">

@@ -426,10 +426,10 @@
                     <span data-i18n="drpdwn.print">Print</span>
                     <i class="float-right text-muted fw-n">Ctrl + P</i>
                 </a>--}}
-               {{-- <a href="" class="dropdown-item" id="btn-pass">
-                    <span>Ganti Password</span>
+                <a href="{{route('edit-profile')}}" class="dropdown-item">
+                    <span>Edit Profil</span>
                     <i class="float-right fal fa-key fw-n"></i>
-                </a>--}}
+                </a>
                 <div class="dropdown-divider m-0"></div>
                 <a class="dropdown-item fw-500 pt-3 pb-3" href="{{ route('logout') }}"
                    onclick="event.preventDefault();
