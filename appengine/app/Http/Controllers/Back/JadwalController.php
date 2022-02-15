@@ -407,53 +407,73 @@ class JadwalController extends Controller
     }
 
     public function showTukarJadwal($id_tukar_jadwal){
-        $data = TukarJadwal::select('users.name','users.nip','users.id as id_user',
-            'jadwal.hari','jadwal.tanggal_jadwal','jadwal.jam_mulai','jadwal.jam_selesai',
-            'tukar_jadwal.*')
+        $tukar_jadwal_pemohon = TukarJadwal::select('tukar_jadwal.*',
+            'users.nip','users.jabatan','users.name'
+            )
             ->join('users','users.id','=','tukar_jadwal.id_pegawai')
-            ->join('jadwal','jadwal.id_jadwal','=','tukar_jadwal.id_jadwal')
-            ->where('id_tukar_jadwal',$id_tukar_jadwal)
+            ->where('tukar_jadwal.id_tukar_jadwal',$id_tukar_jadwal)
             ->first();
 
-        if ($data->status == "Diterima"){
-            $riwayat_jadwal = RiwayatJadwal::findOrFail($data->id_riwayat_jadwal);
-        }else{
-            $riwayat_jadwal = array();
-        }
+        $jadwal_lama = Jadwal::select('users.name','users.nip','users.jabatan','users.id as id_user',
+            'jadwal.hari','jadwal.tanggal_jadwal',
+            'kereta.nama_kereta','kereta.nomor_kereta'
+        )
+            ->join('users','users.id','=','jadwal.id_pegawai')
+            ->join('kereta','kereta.id_kereta','=','jadwal.id_kereta')
+            ->where('id_jadwal',$tukar_jadwal_pemohon['id_riwayat_jadwal'])
+            ->first();
+        $jadwal_diinginkan = Jadwal::select('users.name','users.nip','users.jabatan','users.id as id_user',
+            'jadwal.hari','jadwal.tanggal_jadwal',
+            'kereta.nama_kereta','kereta.nomor_kereta'
+        )
+            ->join('users','users.id','=','jadwal.id_pegawai')
+            ->join('kereta','kereta.id_kereta','=','jadwal.id_kereta')
+            ->where('id_jadwal',$tukar_jadwal_pemohon['id_jadwal_diinginkan'])
+            ->first();
 
-        return view('back.jadwal.show_tukar_jadwal', compact('data','riwayat_jadwal'));
+        $tukar_jadwal_termohon = TukarJadwal::select('tukar_jadwal.*',
+            'users.nip','users.jabatan','users.name'
+        )
+            ->join('users','users.id','=','tukar_jadwal.id_pegawai')
+            ->where('tukar_jadwal.id_riwayat_jadwal',$tukar_jadwal_pemohon['id_jadwal_diinginkan'])
+            ->first();
+
+
+
+        return view('back.jadwal.show_tukar_jadwal', compact('jadwal_lama','jadwal_diinginkan','tukar_jadwal_pemohon','tukar_jadwal_termohon'));
     }
 
     public  function updateTukarJadwal(Request $request){
         $requestData = $request->all();
-        $id = $requestData['id_tukar_jadwal'];
-        $data = TukarJadwal::findOrFail($id);
+        $id_pemohon1 = $requestData['id_pemohon1'];
+        $id_pemohon2 = $requestData['id_pemohon2'];
 
-        $jadwal = Jadwal::findOrFail($data->id_jadwal);
+        unset($requestData['id_pemohon1']);
+        unset($requestData['id_pemohon2']);
+
+        $data_pemohon1 = TukarJadwal::findOrFail($id_pemohon1);
+        $data_pemohon2 = TukarJadwal::findOrFail($id_pemohon2);
+
+
 
         if ($requestData['status'] == "Diterima"){
-
-            //simpan riwayat jadwal
-            $history_jadwal = RiwayatJadwal::create([
-                'id_pegawai' => $jadwal->id_pegawai,
-                'hari' => $jadwal->hari,
-                'tanggal_jadwal' => $jadwal->tanggal_jadwal,
-                'jam_mulai' => $jadwal->jam_mulai,
-                'jam_selesai' => $jadwal->jam_selesai
-            ]);
-            $requestData['id_riwayat_jadwal'] = $history_jadwal->id_riwayat_jadwal;
-
-            //update data jadwal tsb
-            $data_update_jadwal = array(
-                'hari'=>$data->hari_tukar,
-                'tanggal_jadwal'=>$data->tanggal_jadwal_tukar,
-                'jam_mulai'=>$data->jam_mulai_tukar,
-                'jam_selesai'=>$data->jam_selesai_tukar
+            //ubah jadwal milik pemohon 1
+            $jadwal_diinginkan_pemohon1 = Jadwal::findOrFail($data_pemohon1->id_jadwal_diinginkan);
+            $data_ubah1 = array(
+              'id_pegawai'=>$data_pemohon1->id_pegawai
             );
-            $update_jadwal = $jadwal->update($data_update_jadwal);
+            $jadwal_diinginkan_pemohon1->update($data_ubah1);
+
+            //ubah jadwal milik pemohon 2
+            $jadwal_diinginkan_pemohon2 = Jadwal::findOrFail($data_pemohon2->id_jadwal_diinginkan);
+            $data_ubah2 = array(
+                'id_pegawai'=>$data_pemohon2->id_pegawai
+            );
+            $jadwal_diinginkan_pemohon2->update($data_ubah2);
         }
 
-        $update = $data->update($requestData);
+        $data_pemohon1->update($requestData);
+        $update = $data_pemohon2->update($requestData);
         if ($update) {
 
             return redirect(route('jadwal.tukar-jadwal'))

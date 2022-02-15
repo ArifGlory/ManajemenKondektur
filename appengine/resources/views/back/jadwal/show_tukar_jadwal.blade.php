@@ -31,11 +31,20 @@
 
 @section('content')
     <div class="row">
-        <div class="col-sm-12 col-md-12">
+        <div class="col-md-12">
+            <div class="alert alert-info" role="alert">
+                <h5 class="alert-heading">Status Tukar Jadwal</h5>
+                <hr>
+                <h3> {{$tukar_jadwal_pemohon->status}} </h3>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
             <div class="panel">
                 <div class="panel-hdr">
                     <h2>
-                        <strong id="title-table">Detail</strong> <span class="fw-300"><i>Tukar jadwal</i></span>
+                        <strong id="title-table">Pemohon 1</strong> <span class="fw-300"><i></i></span>
                     </h2>
                     <div class="panel-toolbar">
                         <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
@@ -48,126 +57,133 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group mt-2">
-                                    <label class="form-label">Nama Pegawai</label>
-                                    <h4>{{$data->name}}</h4>
+                                    <label class="form-label">Pegawai</label>
+                                    <h4>{{$tukar_jadwal_pemohon->name}} - NIP {{$tukar_jadwal_pemohon->nip}} | {{$tukar_jadwal_pemohon->jabatan}}</h4>
                                 </div>
                                 <div class="form-group mt-2">
-                                    <label class="form-label">NIP</label>
-                                    <h4>{{$data->nip}}</h4>
+                                    <label class="form-label">Alasan Penukaran</label>
+                                    @if($tukar_jadwal_pemohon->alasan == "Sakit")
+                                        <h4>{{$tukar_jadwal_pemohon->alasan}} - <a target="_blank" href="{{asset('img/file_pendukung/'.$tukar_jadwal_pemohon->file_pendukung)}}">Lihat File Pendukung</a> </h4>
+                                    @else
+                                        <h4>{{$tukar_jadwal_pemohon->alasan}}</h4>
+                                    @endif
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group mt-5 ">
-                                    <label class="form-label">Status Ajuan Tukar Jadwal</label>
-                                    <h2>{{$data->status}}</h2>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mt-5">
-                            @if($data->status == "Diterima")
-                                <div class="col-md-6">
-                                    <div class="form-group mt-3">
-                                        <h4>Jadwal Awal</h4>
-                                    </div>
-                                    <div class="form-group mt-2">
-                                        <label class="form-label">Hari</label>
-                                        <h5>{{$riwayat_jadwal->hari}}</h5>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Tanggal</label>
-                                        <h5>{{ \Carbon\Carbon::parse($riwayat_jadwal->tanggal_jadwal)->format('d M Y') }}</h5>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="form-label">Jam Mulai kedinasan</label>
-                                                <h5>{{$riwayat_jadwal->jam_mulai}}</h5>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group mt-3">
-                                        <label class="form-label">Jam Selesai kedinasan</label>
-                                        <h5>{{$riwayat_jadwal->jam_selesai}}</h5>
-                                    </div>
-                                </div>
-                            @else
-                                <div class="col-md-6">
-                                    <div class="form-group mt-3">
-                                        <h4>Jadwal Awal</h4>
-                                    </div>
-                                    <div class="form-group mt-2">
-                                        <label class="form-label">Hari</label>
-                                        <h5>{{$data->hari}}</h5>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Tanggal</label>
-                                        <h5>{{ \Carbon\Carbon::parse($data->tanggal_jadwal)->format('d M Y') }}</h5>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="form-label">Jam Mulai kedinasan</label>
-                                                <h5>{{$data->jam_mulai}}</h5>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group mt-3">
-                                        <label class="form-label">Jam Selesai kedinasan</label>
-                                        <h5>{{$data->jam_selesai}}</h5>
-                                    </div>
-                                </div>
-                            @endif
-
-
-                            <div class="col-md-6">
-                                <div class="form-group mt-3">
-                                    <h4>Pengajuan Jadwal Baru</h4>
+                                <hr>
+                                <h3>Jadwal Asal</h3>
+                                <div class="form-group mt-2">
+                                    <label class="form-label">Kereta</label>
+                                    <h4>{{$jadwal_lama->nama_kereta}} - {{$jadwal_lama->nomor_kereta}} </h4>
                                 </div>
                                 <div class="form-group mt-2">
-                                    <label class="form-label">Hari</label>
-                                    <h5>{{$data->hari_tukar}}</h5>
-                                </div>
-                                <div class="form-group">
                                     <label class="form-label">Tanggal</label>
-                                    <h5>{{ \Carbon\Carbon::parse($data->tanggal_jadwal_tukar)->format('d M Y') }}</h5>
+                                    <h4>{{$jadwal_lama->hari}}, {{ \Carbon\Carbon::parse($jadwal_lama->tanggal_jadwal)->format('d M Y') }} </h4>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="form-label">Jam Mulai kedinasan</label>
-                                            <h5>{{$data->jam_mulai_tukar}}</h5>
-                                        </div>
-                                    </div>
+                                <hr>
+                                <h3>Jadwal Diinginkan</h3>
+                                <div class="form-group mt-2">
+                                    <label class="form-label">Kereta</label>
+                                    <h4>{{$jadwal_diinginkan->nama_kereta}} - {{$jadwal_diinginkan->nomor_kereta}} </h4>
                                 </div>
-                                <div class="form-group mt-3">
-                                    <label class="form-label">Jam Selesai kedinasan</label>
-                                    <h5>{{$data->jam_selesai_tukar}}</h5>
+                                <div class="form-group mt-2">
+                                    <label class="form-label">Tanggal</label>
+                                    <h4>{{$jadwal_diinginkan->hari}}, {{ \Carbon\Carbon::parse($jadwal_diinginkan->tanggal_jadwal)->format('d M Y') }} </h4>
                                 </div>
-                                <div class="form-group mt-3">
-                                    <label class="form-label">Alasan Tukar Jadwal</label>
-                                    <h4>{{$data->alasan}}</h4>
-                                </div>
-                                @if($data->alasan == "Sakit")
-                                    <div class="form-group mt-3">
-                                        <label class="form-label">File Surat Keterangan Sakit</label>
-                                        <h4> <a target="_blank" href="{{ asset('img/file_pendukung/'.$data->file_pendukung) }}">Lihat Surat Keterangan Sakit</a> </h4>
-                                    </div>
-                                @endif
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="col-sm-6">
+            <div class="panel">
+                <div class="panel-hdr">
+                    <h2>
+                        <strong id="title-table">Pemohon 2</strong> <span class="fw-300"><i></i></span>
+                    </h2>
+                    <div class="panel-toolbar">
+                        <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
+                        <button class="btn btn-panel" data-action="panel-fullscreen" data-toggle="tooltip" data-offset="0,10" data-original-title="Fullscreen"></button>
+                        <button class="btn btn-panel" data-action="panel-close" data-toggle="tooltip" data-offset="0,10" data-original-title="Close"></button>
+                    </div>
+                </div>
+                <div class="panel-container show">
+                    @if($tukar_jadwal_termohon)
+                        <div class="panel-content">
+                            <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mt-2">
+                                    <label class="form-label">Pegawai</label>
+                                    <h4>{{$tukar_jadwal_termohon->name}} - NIP {{$tukar_jadwal_termohon->nip}} | {{$tukar_jadwal_termohon->jabatan}}</h4>
+                                </div>
+                                <div class="form-group mt-2">
+                                    <label class="form-label">Alasan Penukaran</label>
+                                    @if($tukar_jadwal_termohon->alasan == "Sakit")
+                                        <h4>{{$tukar_jadwal_termohon->alasan}} - <a target="_blank" href="{{asset('img/file_pendukung/'.$tukar_jadwal_termohon->file_pendukung)}}">Lihat File Pendukung</a> </h4>
+                                    @else
+                                        <h4>{{$tukar_jadwal_termohon->alasan}}</h4>
+                                    @endif
+                                </div>
+                                <hr>
+                                <h3>Jadwal Asal</h3>
+                                @php
+
+                                    $jadwal_lama_termohon = App\Models\Jadwal::select('jadwal.*','kereta.*')
+                                        ->join('kereta','kereta.id_kereta','=','jadwal.id_kereta')
+                                        ->where('id_jadwal',$tukar_jadwal_termohon['id_riwayat_jadwal'])
+                                        ->first();
+
+                                     $jadwal_diinginkan_termohon = App\Models\Jadwal::select('jadwal.*','kereta.*')
+                                        ->join('kereta','kereta.id_kereta','=','jadwal.id_kereta')
+                                        ->where('id_jadwal',$tukar_jadwal_termohon['id_jadwal_diinginkan'])
+                                        ->first();
+
+                                @endphp
+                                <div class="form-group mt-2">
+                                    <label class="form-label">Kereta</label>
+                                    <h4>{{$jadwal_lama_termohon->nama_kereta}} - {{$jadwal_lama_termohon->nomor_kereta}} </h4>
+                                </div>
+                                <div class="form-group mt-2">
+                                    <label class="form-label">Tanggal</label>
+                                    <h4>{{$jadwal_lama_termohon->hari}}, {{ \Carbon\Carbon::parse($jadwal_lama_termohon->tanggal_jadwal)->format('d M Y') }} </h4>
+                                </div>
+                                <hr>
+                                <h3>Jadwal Diinginkan</h3>
+                                <div class="form-group mt-2">
+                                    <label class="form-label">Kereta</label>
+                                    <h4>{{$jadwal_diinginkan_termohon->nama_kereta}} - {{$jadwal_diinginkan_termohon->nomor_kereta}} </h4>
+                                </div>
+                                <div class="form-group mt-2">
+                                    <label class="form-label">Tanggal</label>
+                                    <h4>{{$jadwal_diinginkan_termohon->hari}}, {{ \Carbon\Carbon::parse($jadwal_diinginkan_termohon->tanggal_jadwal)->format('d M Y') }} </h4>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    @else
+                        <div class="panel-content">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group text-center">
+                                        <img class="" id="previewFoto" width="30%" height="250" src="{{asset('img/error.png')}}">
+                                        <hr>
+                                        <h3>Pemohon 2 belum mengajukan penukaran jadwal</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="row">
-        @if(Auth::user()->jenis_user == "admin")
+        @if(Auth::user()->jenis_user == "admin" && $tukar_jadwal_termohon && $tukar_jadwal_pemohon->status != "Diterima")
         <div class="col-sm-12 col-md-12">
             <div class="panel">
                 <div class="panel-hdr">
                     <h2>
-                        <strong id="title-table">Ubah Status </strong> <span class="fw-300"><i>Tukar jadwal</i></span>
+                        <strong id="title-table">Konfirmasi status </strong> <span class="fw-300"><i>Penukaran jadwal</i></span>
                     </h2>
                     <div class="panel-toolbar">
                         <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
@@ -176,7 +192,7 @@
                     </div>
                 </div>
 
-                    {!! Form::model($data,['route' => ['jadwal.update-tukar-jadwal', $data->id_tukar_jadwal], 'method' => 'PUT', 'id' => 'form-pegawai', 'files' => true]) !!}
+                {!! Form::open(['route' => 'jadwal.update-tukar-jadwal', 'method' => 'POST', 'id' => 'form-pegawai', 'files' => true]) !!}
                         <div class="panel-container show">
                             <div class="panel-content">
                                 <div class="row">
@@ -185,11 +201,12 @@
                                             <h3>Ubah Status Penukaran Jadwal</h3>
                                         </div>
                                         <div class="form-group row">
-                                            <input name="id_tukar_jadwal" type="hidden" value="{{$data->id_tukar_jadwal}}">
+                                            <input name="id_pemohon1" type="hidden" value="{{$tukar_jadwal_pemohon->id_tukar_jadwal}}">
+                                            <input name="id_pemohon2" type="hidden" value="{{$tukar_jadwal_termohon->id_tukar_jadwal}}">
                                             <label class="col-12 col-md-4 col-form-label">Status Tukar Jadwal</label>
                                             <div class="col-sm-12">
                                                 <select name="status" class="form-control select2">
-                                                    <option value="{{$data->status}}">Terpilih - {{$data->status}}</option>
+                                                    <option value="{{$tukar_jadwal_pemohon->status}}">Terpilih - {{$tukar_jadwal_pemohon->status}}</option>
                                                     <option value="Menunggu">Menunggu</option>
                                                     <option value="Diterima">Diterima</option>
                                                     <option value="Ditolak">Ditolak</option>
@@ -212,7 +229,7 @@
                                 </div>
                             </div>
                         </div>
-                    {!! Form::close() !!}
+                {!! Form::close() !!}
 
             </div>
         </div>
