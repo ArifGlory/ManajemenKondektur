@@ -15,13 +15,12 @@ class TukarJadwal extends Model
      */
     protected $fillable = [
         'id_tukar_jadwal',
-        'id_jadwal',
+        'id_jadwal_diinginkan',
         'id_pegawai',
+        'id_kereta_tukar',
         'id_riwayat_jadwal',
         'hari_tukar',
         'tanggal_jadwal_tukar',
-        'jam_mulai_tukar',
-        'jam_selesai_tukar',
         'alasan',
         'file_pendukung',
         'status',

@@ -152,14 +152,16 @@ class JadwalController extends Controller
         if ($role == "admin"){
             $data = TukarJadwal::select('users.name','users.nip','users.id as id_user','jadwal.*','tukar_jadwal.*')
                 ->join('users','users.id','=','tukar_jadwal.id_pegawai')
-                ->join('jadwal','jadwal.id_jadwal','=','tukar_jadwal.id_jadwal')
+                ->join('jadwal','jadwal.id_jadwal','=','tukar_jadwal.id_riwayat_jadwal')
+                ->orderBy('tukar_jadwal.status', 'DESC')
                 ->orderBy('jadwal.created_at', 'DESC')
                 ->get();
         }else{
             $data = TukarJadwal::select('users.name','users.nip','users.id as id_user','jadwal.*','tukar_jadwal.*')
                 ->join('users','users.id','=','tukar_jadwal.id_pegawai')
-                ->join('jadwal','jadwal.id_jadwal','=','tukar_jadwal.id_jadwal')
+                ->join('jadwal','jadwal.id_jadwal','=','tukar_jadwal.id_riwayat_jadwal')
                 ->where('tukar_jadwal.id_pegawai',Auth::user()->id)
+                ->orderBy('tukar_jadwal.status', 'DESC')
                 ->orderBy('jadwal.created_at', 'DESC')
                 ->get();
         }
@@ -169,6 +171,16 @@ class JadwalController extends Controller
                 $waktu = $item->jam_mulai." - ".$item->jam_selesai;
 
                 return $waktu;
+            })
+            ->editColumn('status',function($item){
+                $status = $item->status;
+                if ($status == "Menunggu"){
+                    $html_status = "<span class=\"badge badge-success\">$status</span>";
+                }else{
+                    $html_status = $status;
+                }
+
+                return $html_status;
             })
             ->editColumn('tanggal_jadwal',function($item){
                 $tanggal_jadwal = $item->tanggal_jadwal;
@@ -217,22 +229,39 @@ class JadwalController extends Controller
     }
 
     public function listTukarJadwal(Request $request){
-        return view('back.jadwal.index_tukar_jadwal');
+        $permintaan_baru = TukarJadwal::select('users.name','users.nip','users.id as id_user','jadwal.*','tukar_jadwal.*')
+            ->join('users','users.id','=','tukar_jadwal.id_pegawai')
+            ->join('jadwal','jadwal.id_jadwal','=','tukar_jadwal.id_riwayat_jadwal')
+            ->where('tukar_jadwal.status',"Menunggu")
+            ->get();
+
+        return view('back.jadwal.index_tukar_jadwal',compact('permintaan_baru'));
     }
 
     public function ajukanTukar($id_jadwal){
-        $data = Jadwal::select('users.name','users.nip','users.id','jadwal.*')
+        $data = Jadwal::select('users.name','users.nip','users.id','jadwal.*','kereta.nama_kereta','kereta.nomor_kereta')
             ->join('users','users.id','=','jadwal.id_pegawai')
+            ->join('kereta','kereta.id_kereta','=','jadwal.id_kereta')
             ->where('id_jadwal',$id_jadwal)
             ->first();
 
-        return view('back.jadwal.tukar', compact('data'));
+        $available_kereta = Kereta::select('kereta.*'
+            ,'jadwal.id_jadwal'
+            ,'jadwal.hari'
+            ,'jadwal.tanggal_jadwal')
+            ->join('jadwal','jadwal.id_kereta','=','kereta.id_kereta')
+            ->get();
+
+        return view('back.jadwal.tukar', compact('data','available_kereta'));
     }
 
     public function storePenukaran(TukarJadwalRequest $request){
         $request->validated();
 
-        $tanggal_jadwal_tukar = $request->input('tanggal_jadwal_tukar');
+        $id_jadwal_ditukar = $request->input('id_jadwal_tukar');
+        $jadwal_tukar = Jadwal::findOrFail($id_jadwal_ditukar);
+
+        $tanggal_jadwal_tukar = $jadwal_tukar['tanggal_jadwal'];
         $hari_tukar = Carbon::parse($tanggal_jadwal_tukar)->format('l');
         $hari_tukar = hariIndo($hari_tukar);
         $select_alasan = $request->input('select_alasan');
@@ -246,24 +275,24 @@ class JadwalController extends Controller
             }
 
             $save = TukarJadwal::create([
-                'id_jadwal' => $request->input('id_jadwal'),
+                'id_jadwal_diinginkan' => $jadwal_tukar['id_jadwal'],
+                'id_riwayat_jadwal' => $request->input('id_jadwal'),
                 'id_pegawai' => $request->input('id_pegawai'),
+                'id_kereta_tukar' => $jadwal_tukar['id_kereta'],
                 'hari_tukar' => $hari_tukar,
                 'tanggal_jadwal_tukar' => $tanggal_jadwal_tukar,
-                'jam_mulai_tukar' => $request->input('jam_mulai_tukar'),
-                'jam_selesai_tukar' => $request->input('jam_selesai_tukar'),
                 'alasan' => "Sakit",
                 'file_pendukung' => $photo
             ]);
         }else{
             $deskripsi_alasan = $request->input('deskripsi_alasan');
             $save = TukarJadwal::create([
-                'id_jadwal' => $request->input('id_jadwal'),
+                'id_jadwal_diinginkan' => $jadwal_tukar['id_jadwal'],
+                'id_riwayat_jadwal' => $request->input('id_jadwal'),
                 'id_pegawai' => $request->input('id_pegawai'),
+                'id_kereta_tukar' => $jadwal_tukar['id_kereta'],
                 'hari_tukar' => $hari_tukar,
                 'tanggal_jadwal_tukar' => $tanggal_jadwal_tukar,
-                'jam_mulai_tukar' => $request->input('jam_mulai_tukar'),
-                'jam_selesai_tukar' => $request->input('jam_selesai_tukar'),
                 'alasan' => $deskripsi_alasan
             ]);
         }
@@ -482,7 +511,7 @@ class JadwalController extends Controller
         $current_year = date('Y');
         $bulan_aktif = bulanIndo($current_month);
 
-        $data = Jadwal::select('users.name','users.nip','users.jabatan','jadwal.*','kereta.nomor_kereta','kereta.nama_kereta')
+        $data = Jadwal::select('users.name','users.nip','users.jabatan','jadwal.*','kereta.nomor_kereta','kereta.nama_kereta','kereta.deskripsi_kereta')
             ->join('users','users.id','=','jadwal.id_pegawai')
             ->join('kereta','kereta.id_kereta','=','jadwal.id_kereta','left')
             ->whereYear('jadwal.tanggal_jadwal', '=', $current_year)

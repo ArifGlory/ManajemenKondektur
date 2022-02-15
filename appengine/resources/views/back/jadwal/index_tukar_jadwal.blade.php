@@ -22,6 +22,16 @@
 
         </div>
     </div>
+    <div class="row">
+        @if(count($permintaan_baru) > 0 && Auth::user()->jenis_user == "admin")
+            <div class="col-md-12">
+                <div class="alert alert-success" role="alert">
+                    <h4 class="alert-heading">Ada permintaan penukaran jadwal baru!</h4>
+                    <p>Silahkan cek pada tabel penukaran jadwal</p>
+                </div>
+            </div>
+        @endif
+    </div>
 @endsection
 @section('content')
     <div class="row">

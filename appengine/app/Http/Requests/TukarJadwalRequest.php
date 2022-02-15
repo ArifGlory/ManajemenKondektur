@@ -27,9 +27,6 @@ class TukarJadwalRequest extends FormRequest
             //
             'id_pegawai' => 'required',
             'id_jadwal' => 'required',
-            'tanggal_jadwal_tukar' => 'required',
-            'jam_mulai_tukar' => 'required',
-            'jam_selesai_tukar' => 'required'
         ];
     }
 }

@@ -49,34 +49,16 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-12 col-md-4 col-form-label">Tanggal Penukaran</label>
-                            <div class="col-sm-12 col-md-8">
-                                {!! Form::date('tanggal_jadwal_tukar', null, ['class' => 'form-control', $errors->has('tanggal_jadwal_tukar') ? 'form-control-danger' : '', 'placeholder' => 'Tanggal jadwal']) !!}
-                                @error('tanggal_jadwal_tukar')
-                                <div class="col-form-label">
-                                    <strong>{{ $message }}</strong>
-                                </div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-12 col-md-4 col-form-label">Jam Mulai Kedinasan</label>
-                            <div class="col-sm-12 col-md-8">
-                                {!! Form::time('jam_mulai_tukar', null, ['class' => 'form-control', $errors->has('jam_mulai_tukar') ? 'form-control-danger' : '', 'placeholder' => 'Jam Mulai Dinas']) !!}
-                                @error('jam_mulai_tukar')
-                                <div class="col-form-label">
-                                    <strong>{{ $message }}</strong>
-                                </div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-12 col-md-4 col-form-label">Jam Selesai Kedinasan</label>
-                            <div class="col-sm-12 col-md-8">
-                                {!! Form::time('jam_selesai_tukar', null, ['class' => 'form-control', $errors->has('jam_selesai_tukar') ? 'form-control-danger' : '', 'placeholder' => 'Jam Selesai Dinas']) !!}
-                                @error('jam_selesai_tukar')
+                            <label class="col-12 col-form-label">Pilih Jadwal Kereta Yang Dapat Ditukar</label>
+                            <div class="col-sm-12">
+                                <select class="form-control select2" name="id_jadwal_tukar" id="select_jadwal" required>
+                                    @foreach($available_kereta as $val)
+                                        @if($val->id_jadwal != $data->id_jadwal)
+                                            <option value="{{$val->id_jadwal}}"> {{$val->nama_kereta}} - {{$val->nomor_kereta}}  &nbsp;|&nbsp;  {{$val->hari}}, {{ \Carbon\Carbon::parse($val->tanggal_jadwal)->format('d M Y') }} </option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                                @error('id_kereta')
                                 <div class="col-form-label">
                                     <strong>{{ $message }}</strong>
                                 </div>
@@ -146,6 +128,10 @@
                     </div>
                     <div class="card-body">
                         <div class="form-group row">
+                            <label class="col-12 col-md-4 col-form-label">Kereta</label>
+                            <h2>{{$data->nama_kereta}} - {{$data->nomor_kereta}} </h2>
+                        </div>
+                        <div class="form-group row">
                             <label class="col-12 col-md-4 col-form-label">Tanggal</label>
                             <h5>{{ \Carbon\Carbon::parse($data->tanggal_jadwal)->format('d M Y') }}</h5>
                         </div>
@@ -153,16 +139,6 @@
                         <div class="form-group row">
                             <label class="col-12 col-md-4 col-form-label">Hari</label>
                             <h5>{{$data->hari}}</h5>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-12 col-md-4 col-form-label">Jam Mulai Kedinasan</label>
-                            <h5>{{$data->jam_mulai}}</h5>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-12 col-md-4 col-form-label">Jam Selesai Kedinasan</label>
-                            <h5>{{$data->jam_selesai}}</h5>
                         </div>
 
 
