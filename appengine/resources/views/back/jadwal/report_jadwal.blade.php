@@ -155,7 +155,7 @@
                             <tr>
                                 <td style="vertical-align: middle;">{{$no++}}</td>
                                 <td style="vertical-align: middle;">{{$val->hari}}</td>
-                                <td style="vertical-align: middle;">{{$val->nama_kereta}} - {{$val->nomor_kereta}} </td>
+                                <td style="vertical-align: middle;">{{$val->nomor_kereta}} - {{$val->nama_kereta}}</td>
                                 <td style="vertical-align: middle;">{{$val->deskripsi_kereta}} </td>
                                 <td style="vertical-align: middle;">{{\Carbon\Carbon::parse($val->tanggal_jadwal)->format('d M Y')}}</td>
                                 <?php
